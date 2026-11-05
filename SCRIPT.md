@@ -231,8 +231,8 @@ Every room follows the **same pattern**, so it's quick to build and easy for stu
 
 | Type | Looks like | Use for |
 |---|---|---|
-| ⭐ Star rating | 5 pixel stars that light up | "How would you rate..." |
-| 😀 Mood faces | 5 pixel faces from 😞 to 😄 | Satisfaction / agree–disagree |
+| ❤️ 1–10 hearts | A row of 10 pixel hearts that fill up to the one tapped (same scale as the SSLC Google Form) | "On a scale of 1–10..." |
+| 👍 Yes / No | Two big pixel buttons; the avatar jumps on one | Yes/No questions |
 | 🔘 Multiple choice | Stacked pixel buttons | Picking one option |
 | ✏️ Short text | Pixel "notepad" text box, optional, with a **Skip** button | "Anything else to add?" |
 
@@ -287,47 +287,59 @@ Max pops up in a small speech bubble now and then. These lines are **text only**
 - **Tap the café coffee machine:** the avatar's hair goes spiky (caffeine boost) for the rest of the game.
 - **Loading screen tips:** random lines such as *"Tip: lecturers can't see your answers. We checked. Twice."* or *"Tip: no avatars were harmed in the making of this survey."*
 
-### 8A — Lecture Theatre (Teaching & learning)
+> The questions below are the SSLC's real questions, taken from the current Google Form, split across the rooms so each room has a clear theme. The **room order stays the same**, so the voiceover script doesn't change. ✏️ text answers are always optional (with a `SKIP` button). A "↪" marks a follow-up that only appears for one answer.
+
+### 8A — Lecture Theatre (Teaching & assessment), 6 questions
 **NPC:** Professor character beside a projector screen.
-**NPC:** *"Ah, a student! Tell me, how are lectures going this term?"*
-**Sample questions (placeholders, to be replaced with the SSLC's real ones):**
-1. ⭐ How would you rate the overall quality of teaching on your modules?
-2. 😀 Lecture materials (slides, recordings) are clear and available on time.
-3. 😀 I get useful feedback on my assessments.
-4. ✏️ One thing that would improve your lectures? *(optional)*
+**NPC:** *"Ah, a student! Pull up a chair, let's talk teaching. Don't worry, there's no exam on this."*
+1. 👍 Do you have any concerns about assignment instructions, exams, or assessment criteria? (Yes / No)
+   - ↪ *If Yes:* ✏️ What problems do you have with assessments, exams and more?
+2. 🔘 Would you suggest online classes or offline (in-person) classes? (Online / In-person / Both work)
+3. 👍 Is the pace of teaching appropriate for online learning? (Yes / No)
+4. 👍 Do you want workshop recordings of Foundations of Financial Accounting and Management? (Yes / No) *(see open question: shown to every course, or only the courses that take this module?)*
+5. ✏️ Do you have any concerns or suggestions you would like us to raise with the faculty?
 
-### 8B — Library / Study Space (Resources)
+### 8B — Library (Study spaces), 2 questions
+**Setting:** The Library and the pink CafeLibrary from the photos.
 **NPC:** Librarian behind a desk with stacks of books.
-**NPC:** *"Shhh... just kidding! Quick questions about study resources."*
-1. ⭐ How easy is it to find a study space at WBS?
-2. 😀 I can access the online resources and software I need.
-3. ✏️ What study resource is missing? *(optional)*
+**NPC:** *"Shhh... just kidding! Quick questions about where you study."*
+1. ❤️ Thinking about Warwick's study spaces (Main Library, the Grid, departmental spaces), how would you rate them from 1 to 10?
+2. 👍 Should we include group study sessions and doubt-clearing sessions in our timetable? (Yes / No)
 
-### 8C — Café / Common Room (Facilities & wellbeing)
+### 8C — Café (Your week & student life), 5 questions
 **NPC:** Barista behind a coffee machine (steam animation).
-**NPC:** *"Grab a coffee! How's life at WBS outside the classroom?"*
-1. 😀 I feel part of a community at WBS.
-2. 😀 I know where to go for wellbeing support.
-3. 🔘 How do you mostly hear about WBS events? (Email / Instagram / Moodle / Friends / I don't)
+**NPC:** *"Grab a coffee! So... how's your week looking? Be honest, I've seen the timetable."*
+1. 👍 Are there any concerns about the timetable, room bookings, or scheduling? (Yes / No)
+   - ↪ *If Yes:* ✏️ What changes or improvements would you suggest for the timetable (e.g. buffer time, class structure)?
+2. 👍 Are you comfortable with the commuting time between the morning class and the workshop? (Yes / No)
+3. 🔘 How would you prefer classes to be scheduled throughout the week?
+   - Spread out across the week, with a more balanced workload each day
+   - Concentrated into a few days, leaving other days free for independent study and assignments
+   - No preference, I'm comfortable with either
+4. ❤️ Please rate your experience with Warwick SU societies, sports clubs, volunteering and the Warwick Award, from 1 to 10.
 
-### 8D — Careers Office (Employability)
+### 8D — Careers Office (Careers), 2 questions
 **NPC:** Careers adviser with a pixel laptop.
-**NPC:** *"Let's talk about your future, superstar."*
-1. 😀 WBS is helping me prepare for my career.
-2. 🔘 Have you used the careers service this year? (Yes / No / Didn't know it existed)
-3. ✏️ What careers support would you like more of? *(optional)*
+**NPC:** *"Let's talk about your future, superstar. No pressure. Okay, a little pressure."*
+1. ❤️ On a scale of 1–10 (1 = Very poor, 10 = Excellent), how would you rate Warwick Careers Services?
+2. 👍 Do we need more career services specific to PG students and job support? (Yes / No)
 
 ---
 
-## SCENE 9 — The Suggestion Box (open feedback)
+## SCENE 9 — The Suggestion Box & the Shout-out Wall
 
 **Visual:** After the 4th room, Max leads the player back to the foyer, where a glowing pixel **"Suggestion Box"** appears with sparkles.
 
 **Voice (Max):**
 > "Last stop! This is the Suggestion Box. If you could change ONE thing about WBS, what would it be? Apart from making me taller."
 
-**Input:** Text box (optional) + `SUBMIT` / `SKIP`.
+**Question 1 (Suggestion Box):** ✏️ Is there anything you would like us to raise with the programme team?
 **Animation on submit:** A paper note folds up, flies into the box, and the box glows. Sound: "whoosh, clunk, ding!"
+
+**Question 2 (Shout-out Wall):** Next to the box, a pixel corkboard lights up with sticky notes.
+**Max (text bubble):** *"Now say something nice. I'm sensitive."*
+✏️ **Drop some positive feedback!** What's been great about WBS so far?
+**Animation on submit:** The note pins itself to the wall, and little pixel hearts float up.
 
 ---
 
@@ -426,7 +438,11 @@ Share your badge and get your coursemates to play too. See you around!
 ## Open questions for the SSLC
 
 1. **Guide's name:** "Max" is a placeholder. Something WBS-themed?
-2. **Real survey questions:** replace the sample questions in Scene 8.
+2. **Survey questions:** ✅ received (17 questions). To confirm:
+   - The "Foundations of Financial Accounting and Management" recording question only applies to some courses. Show it only to those courses, or reword it to "workshop recordings" in general?
+   - The study spaces question says "rate the following aspects" but has one scale. One overall score, or separate scores (e.g. availability, noise, Wi-Fi)?
+   - "Raise with the faculty" and "raise with the programme team" are similar. Keep both, or merge them?
+   - "Drop a positive feedback" was required in the form. Make it optional? Forced answers tend to be one-word.
 3. **Rooms:** do these 4 rooms match the sections you need, and which real WBS spaces should they be? (Please send photos of each.)
 4. **Course list:** 20 MSc courses received. Is the list complete, and is the subject grouping OK? Extra "About you" questions (home/international)?
 5. **Voiceover:** a real SSLC member recording, or a generated voice?
