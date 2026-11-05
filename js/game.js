@@ -570,7 +570,7 @@
     app.classList.add("picker");
     showHud(false);
     clearStage();
-    setBg("assets/bg/title.png");
+    setBg("assets/bg/letters.png");
     bgEl.style.filter = "brightness(.6)";
     const globe = el("div", "title-screen");
     globe.innerHTML = '<h1 style="font-size:44px">🌐</h1><div class="sub">WBS SURVEY</div>';
@@ -849,6 +849,7 @@
   async function sceneFoyer(nextId, vo) {
     await wipe(() => {
       clearStage();
+      app.classList.remove("full");
       setBg("assets/bg/foyer.png");
       setProgress(nextId ? ROOMS.find((r) => r.id === nextId).name : "Suggestion Box");
     });
@@ -1004,12 +1005,13 @@
   }
 
   // ---------- short walk-in shot (e.g. the District café entrance) ----------
-  async function sceneWalkIn(bg) {
+  async function sceneWalkIn(bg, from = 10, to = 76) {
     await wipe(() => { clearStage(); setBg(bg); setPanel(); app.classList.add("full"); });
-    const me = addActor(state.look, { x: 10, bottom: "4%" });
-    const max = addActor(MAX_LOOK, { x: 2, bottom: "4%", name: CONFIG.GUIDE_NAME });
-    walk(max, 68, 30);
-    await walk(me, 76, 30);
+    const dir = to > from ? 1 : -1;
+    const me = addActor(state.look, { x: from, bottom: "4%" });
+    const max = addActor(MAX_LOOK, { x: from - 8 * dir, bottom: "4%", name: CONFIG.GUIDE_NAME });
+    walk(max, to - 8 * dir, 30);
+    await walk(me, to, 30);
     Sound.sfx("door");
     fadeActor(me, false); fadeActor(max, false);
     await sleep(300);
@@ -1200,8 +1202,8 @@
   async function sceneFinale() {
     await wipe(() => {
       clearStage();
-      setBg("assets/bg/title.png");
-      bgEl.style.filter = "sepia(.35) saturate(1.4) hue-rotate(-12deg) brightness(1.05)";
+      setBg("assets/bg/curious.png");
+      bgEl.style.filter = "saturate(1.15) brightness(1.05)";
       setPanel();
       setProgress("Suggestion Box");
       $("#progress").querySelectorAll(".seg").forEach((s) => { s.className = "seg done"; });
@@ -1269,6 +1271,7 @@
     await sceneCourse();
     await sceneCreator();
     await sceneArrival();
+    await sceneWalkIn("assets/bg/reception.png", 92, 20);
 
     const vos = { lecture: 9, library: 10, cafe: 11, careers: 12 };
     for (const id of HUB) {
@@ -1287,7 +1290,7 @@
   }
 
   // preload backgrounds, then go
-  ["title", "lounge2", "road", "signpost", "entrance", "foyer", "cardreader", "lecture", "corridor", "library", "district", "cafe", "careers", "lounge", "quotewall"].forEach((n) => { const i = new Image(); i.src = "assets/bg/" + n + ".png"; });
+  ["letters", "title", "reception", "curious", "lounge2", "road", "signpost", "entrance", "foyer", "cardreader", "lecture", "corridor", "library", "district", "cafe", "careers", "lounge", "quotewall"].forEach((n) => { const i = new Image(); i.src = "assets/bg/" + n + ".png"; });
   main().catch((e) => { console.error(e); setPanel(el("div", "box", esc(t("ui.error")))); });
 
   // test hooks (used by automated checks only)
