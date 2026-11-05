@@ -91,7 +91,21 @@ A student opens the link and lands on a pixel-art title screen of the WBS buildi
 **Animation:** Each button gets a small "bounce" and highlight glow when tapped, with a "blip" sound effect.
 **Data saved:** gender (for the percentages breakdown).
 
-> Optional extra "About you" questions on the same screen, if the SSLC wants them: year of study, course (e.g. BSc Management, Accounting & Finance, MSc...), home/international. Every extra question here makes the game longer, so only add what you will actually use.
+---
+
+## SCENE 3B — "Choose your course"
+
+**Visual:** Arcade-style **"SELECT YOUR COURSE"** screen. Each course is a large pixel button in a scrollable list (like choosing a level in a retro game). If the list is long, courses are grouped under headings (e.g. Undergraduate / Postgraduate) and a small search box sits at the top.
+
+**Question:** *"Which course are you on?"*
+
+**Options:** *(the course list is still to come from the SSLC)*, plus a final `Other / Prefer not to say` button.
+
+**Animation:** The selected course button flashes and a "level select" sound plays. Then a pixel wipe leads to the Character Creator.
+**Data saved:** course (so results can be broken down by course).
+**Voice:** none, so no extra recording is needed.
+
+> Optional: year of study and home/international could be added to this screen. Every extra question makes the game longer, so only add what you will actually use.
 
 ---
 
@@ -265,6 +279,8 @@ Every room follows the **same pattern**, so it's quick to build and easy for stu
    ↓
 [3] Player select: gender
    ↓
+[3B] Select your course
+   ↓
 [4] Character creator (skin tone, hair, outfit...)
    ↓
 [5] Avatar walks to WBS → doors open → Max walks out and waves: "Hi, hello, welcome!"
@@ -311,7 +327,7 @@ All lines for the male voice actor in one place (~20 lines, about 2 minutes of a
 1. **Guide's name:** "Max" is a placeholder. Something WBS-themed?
 2. **Real survey questions:** replace the sample questions in Scene 8.
 3. **Rooms:** do these 4 rooms match the sections you need, and which real WBS spaces should they be? (Please send photos of each.)
-4. **Extra "About you" questions:** year, course, home/international?
+4. **Course list:** the full list of courses students can choose from. Extra "About you" questions (year, home/international)?
 5. **Voiceover:** a real SSLC member recording, or a generated voice?
 6. **Prize/incentive:** needed? If so, it must be a separate link so it stays anonymous.
 7. **Where results go:** a Google Sheet (simplest) or a database.
