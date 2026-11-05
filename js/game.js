@@ -1264,6 +1264,7 @@
     Sound.sfx("door");
     app.classList.add("full");
     showHud(false);
+    setPanel();
     const ts = el("div", "title-screen");
     ts.innerHTML = "<h1>" + t("ui.thanksFor") + "<span>" + t("ui.playing") + '</span></h1><div class="sub">' + t("ui.answersSent") + '</div><div class="tip" style="margin-top:auto">' + t("ui.shareLink") + "</div>";
     fx.append(ts);
