@@ -296,7 +296,9 @@ The survey is **adaptive**. Every student gets a slightly different path dependi
 **1. Based on their course (chosen in Scene 3B)**
 | Question | Who sees it |
 |---|---|
-| Workshop recordings of Foundations of Financial Accounting and Management | Only students on the courses that take this module *(course list to be confirmed by the SSLC)* |
+| Workshop recordings of Foundations of Financial and Management Accounting | Only **MBM, MBOM, MINT, MBC** students |
+| The **Module Corridor** (FFMA, Quantitative Methods, Strategy) | Only **MBM, MBOM, MINT, MBC** students |
+| The **specialism module** questions | Only the module that matches their course: **MBOM** → Supply Chain Management, **MBC** → Introduction to Consulting, **MBM** → Marketing, **MINT** → International Business |
 | Every other question | Everyone |
 
 **2. Based on their answers (follow-ups)**
@@ -321,8 +323,40 @@ Answering "No" or giving a good rating simply skips the follow-up, so happy stud
    - ↪ *If Yes:* ✏️ What problems do you have with assessments, exams and more?
 2. 🔘 Would you suggest online classes or offline (in-person) classes? (Online / In-person / Both work)
 3. 👍 Is the pace of teaching appropriate for online learning? (Yes / No) *(only if they answered Online or Both)*
-4. 👍 Do you want workshop recordings of Foundations of Financial Accounting and Management? (Yes / No) *(only shown to the courses that take this module)*
+4. 👍 Do you want workshop recordings of Foundations of Financial and Management Accounting? (Yes / No) *(only MBM, MBOM, MINT, MBC)*
 5. ✏️ Do you have any concerns or suggestions you would like us to raise with the faculty?
+
+### 8A+ — The Module Corridor (only MBM, MBOM, MINT, MBC students)
+
+**Setting:** Straight after the lecture theatre, a corridor of small seminar-room doors, each with a module name on a pixel plaque. The student visits **4 doors**: three core modules plus the one specialism module that matches their course.
+**NPC (Professor, text only):** *"Hold on! You're on {course}, so I've got a few module questions for you. Quick ones, I promise."*
+**Max (text bubble):** *"He says 'quick'. He also said the lecture would finish on time."*
+
+**Door 1: Foundations of Financial and Management Accounting** 🧮
+1. 🔘 Do you feel the balance between theoretical explanations and numerical/practical examples is appropriate? (Yes / No / Maybe)
+2. 🔘 Would you find extra problem-solving or doubt-clearing sessions useful for this module? (Yes / No / Maybe)
+3. ✏️ What problems do you face in this module? (content, pace, etc.)
+
+**Door 2: Quantitative Methods for Business** 📊
+1. 🔘 Is the pace of teaching appropriate when explaining calculations and methods? (Too fast / Too slow / Fine)
+2. ✏️ What problems do you face in this module? (content, pace, etc.)
+
+**Door 3: Strategy Analysis and Practice** ♟️
+1. 🔘 Do you find the case studies and practical examples useful for understanding the content? (Yes / No / Maybe)
+2. ✏️ What additional support or activities would improve your learning?
+
+**Door 4: Specialism module** (only the one matching their course)
+| Course | Module door they see |
+|---|---|
+| MBOM | 🚚 Supply Chain Management |
+| MBC | 💼 Introduction to Consulting |
+| MBM | 📣 Marketing |
+| MINT | 🌍 International Business |
+
+1. 👍 Is the pace of teaching appropriate? (Yes / No)
+2. ✏️ What problems do you face in this module? (content, pace, etc.)
+
+**Animation:** Each door gets a ✅ stamp as it's finished. After door 4 the corridor lights up and the student heads back to the foyer, where Max's "Next up, the library" line plays as normal (so the voiceover script doesn't change).
 
 ### 8B — Library (Study spaces), 2 questions
 **Setting:** The Library and the pink CafeLibrary from the photos.
@@ -464,7 +498,7 @@ Share your badge and get your coursemates to play too. See you around!
 
 1. **Guide's name:** "Max" is a placeholder. Something WBS-themed?
 2. **Survey questions:** ✅ received (17 questions). To confirm:
-   - ✅ The Foundations of Financial Accounting and Management question stays as written. **Which courses take this module?** (Only those students will see it.)
+   - ✅ Module questions (FFMA, Quantitative Methods, Strategy, specialism) are only for MBM, MBOM, MINT, MBC. **Confirm the abbreviations:** MBM = Business with Marketing, MBOM = Business with Operations Management, MINT = International Business, MBC = Business with Consulting?
    - The study spaces question says "rate the following aspects" but has one scale. One overall score, or separate scores (e.g. availability, noise, Wi-Fi)?
    - "Raise with the faculty" and "raise with the programme team" are similar. Keep both, or merge them?
    - "Drop a positive feedback" was required in the form. Make it optional? Forced answers tend to be one-word.
