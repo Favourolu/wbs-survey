@@ -96,6 +96,7 @@
 
   // Max's one-off lines (text only)
   lines: {
+    cardMaxPG: "모듈 질문은 대학원 사무실에 있어. 카드 부탁해!",
     cardMax: "잠깐! 강의실은 카드를 찍어야 들어갈 수 있어. 자, 삑 하고 들어가 봐.",
     cardDone: "삑! 들어왔다. 완전 공식적이야.",
     cardMiss: "아깝다! 작은 검은 리더기에 대 봐.",

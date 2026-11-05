@@ -98,6 +98,7 @@
 
   // Max's one-off lines (text only)
   lines: {
+    cardMaxPG: "Pertanyaan modul ada di Kantor Pascasarjana. Kartunya, dong!",
     cardMax: "Tunggu! Ruang kuliah perlu tap kartu. Ayo, bip dan masuk.",
     cardDone: "Bip! Kamu masuk. Resmi banget.",
     cardMiss: "Dikit lagi! Arahkan ke pembaca hitam kecil itu.",

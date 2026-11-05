@@ -99,6 +99,7 @@
 
   // Max's one-off lines (text only)
   lines: {
+    cardMaxPG: "The module questions are in the Postgraduate Office. Card, please!",
     cardMax: "Hold on! The lecture theatre needs a card tap. Go on, beep yourself in.",
     cardDone: "Beep! You're in. Very official.",
     cardMiss: "So close! Aim for the little black reader.",

@@ -96,6 +96,7 @@
 
   // Max's one-off lines (text only)
   lines: {
+    cardMaxPG: "モジュールの質問は大学院オフィスだよ。カードをどうぞ！",
     cardMax: "ちょっと待って！講義室はカードが必要なんだ。ほら、ピッとして入ろう。",
     cardDone: "ピッ！入れたね。すごく本格的。",
     cardMiss: "おしい！小さい黒いリーダーをねらって。",

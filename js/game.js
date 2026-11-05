@@ -890,15 +890,20 @@
 
 
   // ---------- tap your student card on the reader ----------
-  async function sceneCardTap() {
+  const CARD_SPOTS = {
+    lecture: { bg: "assets/bg/cardreader.png", reader: { x: 0.413, y: 0.873 }, screen: { x: 0.625, y: 0.405 }, line: "lines.cardMax" },
+    pgoffice: { bg: "assets/bg/pgoffice.png", reader: { x: 0.302, y: 0.619 }, screen: { x: 0.6, y: 0.36 }, line: "lines.cardMaxPG" },
+  };
+  async function sceneCardTap(spot = "lecture") {
+    const SPOT = CARD_SPOTS[spot];
     await wipe(() => {
       clearStage();
-      setBg("assets/bg/cardreader.png");
+      setBg(SPOT.bg);
       setPanel();
       app.classList.add("full");
     });
     // where the reader / room screen sit in the photo (fractions of the image)
-    const IMG = { w: 120, h: 160 }, READER = { x: 0.413, y: 0.873 }, SCREEN = { x: 0.625, y: 0.405 };
+    const IMG = { w: 120, h: 160 }, READER = SPOT.reader, SCREEN = SPOT.screen;
     const sw = stage.clientWidth, sh = stage.clientHeight;
     const sc = Math.max(sw / IMG.w, sh / IMG.h);
     const ox = (sw - IMG.w * sc) / 2, oy = sh - IMG.h * sc;
@@ -926,7 +931,7 @@
     fx.style.pointerEvents = "none";
     const max = addActor(MAX_LOOK, { x: 86, bottom: "2%", name: CONFIG.GUIDE_NAME, flip: true, scale: 3 });
     maxActor = max;
-    sayHead(t("lines.cardMax"));
+    sayHead(t(SPOT.line));
 
     // starting spot for the card (bottom middle)
     const placeAuto = () => {
@@ -1282,7 +1287,7 @@
       await sceneRoom(room);
       if (id === "lecture") {
         const corridor = ROOMS.find((r) => r.id === "corridor");
-        if (corridor.showIf(state.answers, state)) await sceneCorridor(corridor);
+        if (corridor.showIf(state.answers, state)) { await sceneCardTap("pgoffice"); await sceneCorridor(corridor); }
       }
     }
     await sceneSuggestions();
@@ -1290,7 +1295,7 @@
   }
 
   // preload backgrounds, then go
-  ["letters", "title", "reception", "curious", "lounge2", "road", "signpost", "entrance", "foyer", "cardreader", "lecture", "corridor", "library", "district", "cafe", "careers", "lounge", "quotewall"].forEach((n) => { const i = new Image(); i.src = "assets/bg/" + n + ".png"; });
+  ["letters", "title", "reception", "curious", "lounge2", "road", "signpost", "entrance", "foyer", "cardreader", "pgoffice", "lecture", "corridor", "library", "district", "cafe", "careers", "lounge", "quotewall"].forEach((n) => { const i = new Image(); i.src = "assets/bg/" + n + ".png"; });
   main().catch((e) => { console.error(e); setPanel(el("div", "box", esc(t("ui.error")))); });
 
   // test hooks (used by automated checks only)

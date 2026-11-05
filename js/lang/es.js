@@ -97,6 +97,7 @@
 
   // Max's one-off lines (text only)
   lines: {
+    cardMaxPG: "Las preguntas de los módulos están en la Oficina de Posgrado. ¡Tarjeta, por favor!",
     cardMax: "¡Espera! El aula magna pide tarjeta. Venga, haz bip y entra.",
     cardDone: "¡Bip! Ya estás dentro. Muy oficial.",
     cardMiss: "¡Casi! Apunta al lectorcito negro.",

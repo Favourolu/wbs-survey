@@ -96,6 +96,7 @@
 
   // Max's one-off lines (text only)
   lines: {
+    cardMaxPG: "模块问题在研究生办公室。请刷卡！",
     cardMax: "等等！进阶梯教室要刷卡。来，自己滴一下进门吧。",
     cardDone: "滴！进来了。超正式的。",
     cardMiss: "差一点！对准那个黑色的小读卡器。",
