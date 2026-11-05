@@ -5,7 +5,7 @@ For each language: paste the whole block into ElevenLabs **using the same Max vo
 **Keep the `<break time="1.5s" />` tags.** They put a clear pause between lines, so the recording can be cut into the 16 clips exactly. Without them, the pause between two lines sounds the same as a pause inside a line.
 
 - If your ElevenLabs model reads the tag out loud or ignores it, switch to the **Multilingual v2** model, which supports these tags.
-- English is already recorded ✅
+- All 10 languages are recorded ✅. English was split and checked with speech recognition. The other 9 were split automatically by matching two takes against each other, so a native speaker should listen once to confirm each line matches its subtitle.
 - If the voice says "W B S" or "S S L C" wrongly, regenerate that line on its own and send it separately.
 
 ## English (en) ✅ recorded
@@ -46,7 +46,7 @@ Your answers go straight to the S.S.L.C., and we'll use them to make W.B.S. bett
 Share your badge and get your coursemates to play too. See you around!
 ```
 
-## 中文 (zh)
+## 中文 (zh) ✅ recorded (split automatically, please listen through)
 
 File name: `vo_zh.mp3`
 
@@ -84,7 +84,7 @@ File name: `vo_zh.mp3`
 分享你的徽章，叫上同学们一起来玩吧。回头见！
 ```
 
-## हिन्दी (hi)
+## हिन्दी (hi) ✅ recorded (split automatically, please listen through)
 
 File name: `vo_hi.mp3`
 
@@ -122,7 +122,7 @@ File name: `vo_hi.mp3`
 अपना बैज शेयर करो और अपने coursemates को भी खिलाओ। फिर मिलते हैं!
 ```
 
-## العربية (ar)
+## العربية (ar) ✅ recorded (split automatically, please listen through)
 
 File name: `vo_ar.mp3`
 
@@ -160,7 +160,7 @@ File name: `vo_ar.mp3`
 شارك شارتك وادعُ زملاءك ليلعبوا أيضاً. نراك قريباً!
 ```
 
-## Español (es)
+## Español (es) ✅ recorded (split automatically, please listen through)
 
 File name: `vo_es.mp3`
 
@@ -198,7 +198,7 @@ Tus respuestas van directo al S S L C, y las usaremos para mejorar W B S para to
 Comparte tu insignia y anima a tus compañeros a jugar también. ¡Nos vemos!
 ```
 
-## Français (fr)
+## Français (fr) ✅ recorded (split automatically, please listen through)
 
 File name: `vo_fr.mp3`
 
@@ -236,7 +236,7 @@ Tes réponses vont directement au S S L C, et on s'en servira pour améliorer W 
 Partage ton badge et motive tes camarades à jouer aussi. À plus !
 ```
 
-## 한국어 (ko)
+## 한국어 (ko) ✅ recorded (split automatically, please listen through)
 
 File name: `vo_ko.mp3`
 
@@ -274,7 +274,7 @@ File name: `vo_ko.mp3`
 배지를 공유하고 동기들도 같이 하자고 해 줘. 또 보자!
 ```
 
-## 日本語 (ja)
+## 日本語 (ja) ✅ recorded (split automatically, please listen through)
 
 File name: `vo_ja.mp3`
 
@@ -312,7 +312,7 @@ File name: `vo_ja.mp3`
 バッジをシェアして、クラスメイトも誘ってね。またね！
 ```
 
-## Bahasa Indonesia (id)
+## Bahasa Indonesia (id) ✅ recorded (split automatically, please listen through)
 
 File name: `vo_id.mp3`
 
@@ -350,7 +350,7 @@ Jawabanmu langsung dikirim ke S S L C, dan akan kami pakai untuk membuat W B S l
 Bagikan lencanamu dan ajak teman sekelasmu main juga. Sampai jumpa!
 ```
 
-## Português (pt)
+## Português (pt) ✅ recorded (split automatically, please listen through)
 
 File name: `vo_pt.mp3`
 
