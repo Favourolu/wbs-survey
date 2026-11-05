@@ -936,14 +936,16 @@
 
     // starting spot for the card (bottom middle)
     const placeAuto = () => {
-      const a = app.getBoundingClientRect();
+      const a = app.getBoundingClientRect(), st = stage.getBoundingClientRect();
       auto.style.top = (head.getBoundingClientRect().bottom - a.top + 12) + "px";
+      auto.style.left = (st.left - a.left + st.width / 2) + "px";
     };
     placeAuto();
     const home = () => {
       const a = app.getBoundingClientRect();
       const below = auto.getBoundingClientRect().bottom - a.top + 74;
-      return { x: a.width / 2 - 20, y: Math.max(below, a.height * 0.38) };
+      const st = stage.getBoundingClientRect();
+      return { x: st.left - a.left + st.width / 2 - 20, y: Math.max(below, a.height * 0.38) };
     };
     let pos = home();
     const place = (rot) => { card.style.transform = `translate(${pos.x}px, ${pos.y}px) rotate(${rot || 0}deg)`; };
