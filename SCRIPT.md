@@ -95,7 +95,7 @@ A student opens the link and lands on a pixel-art title screen of the WBS buildi
 
 ## SCENE 3B — "Choose your course"
 
-**Visual:** Arcade-style **"SELECT YOUR COURSE"** screen. Each course is a large pixel button in a scrollable list (like choosing a level in a retro game). All 20 courses are MSc programmes, so they're grouped by subject with a small search box at the top (typing "fin" filters the list to the finance courses).
+**Visual:** Arcade-style **"SELECT YOUR COURSE"** screen. Each course is a large pixel button in a scrollable list (like choosing a level in a retro game). This list covers **every course in WBS**, so the survey is school-wide and results can be compared across departments. All 20 courses are MSc programmes, so they're grouped by subject with a small search box at the top (typing "fin" filters the list to the finance courses).
 
 **Question:** *"Which course are you on?"*
 
@@ -158,7 +158,7 @@ A student opens the link and lands on a pixel-art title screen of the WBS buildi
 | Accessory | none, glasses, headphones, cap |
 
 **Animation:** Every change updates the avatar instantly with a small "poof" sparkle. Tapping **🎲 Random** spins through looks like a slot machine before landing on one.
-**Voice (Max, off-screen):** *"Looking good! Make yourself at home."*
+**Voice (Max, off-screen):** *"Looking good! Honestly, better than my student ID photo."*
 **Button:** `READY ▶`
 **Data saved:** nothing. The avatar is just for fun and is not stored with the answers.
 
@@ -176,7 +176,7 @@ A student opens the link and lands on a pixel-art title screen of the WBS buildi
 
 **Voice (Max):**
 > "Hey! Hi, hello, welcome to WBS!"
-> "I'm Max, and I'll be your guide today."
+> "I'm Max, your guide today. I've been here so long, I'm basically part of the building."
 
 ---
 
@@ -187,8 +187,8 @@ A student opens the link and lands on a pixel-art title screen of the WBS buildi
 **Voice (Max):**
 > "Here's the deal: the Student Staff Liaison Committee wants to know what you *really* think about WBS."
 > "We'll walk through the building together. In each room, someone will ask you a few quick questions."
-> "Just tap your answer. No right or wrong answers, and it's totally anonymous."
-> "It takes about four minutes. Finish the tour and you'll earn your **WBS Feedback Champion** badge!"
+> "Just tap your answer. No right or wrong answers, and it's totally anonymous. Not even I know who you are... and I'm very nosy."
+> "It takes about four minutes. That's shorter than the coffee queue at lunchtime! Finish the tour and you'll earn your **WBS Feedback Champion** badge."
 > "Ready? Let's go!"
 
 **Animation:** On "Let's go!", Max turns and walks through the doors. The player follows automatically.
@@ -213,7 +213,7 @@ A student opens the link and lands on a pixel-art title screen of the WBS buildi
 - The player taps the glowing door, and the avatar walks to it automatically (no fiddly controls on phones).
 
 **Voice (Max), first visit only:**
-> "This is the main foyer. Let's start with the lecture theatre. Tap the glowing door!"
+> "This is the main foyer. Mind the floor, it's freshly pixelated. Let's start with the lecture theatre. Tap the glowing door!"
 
 ---
 
@@ -235,6 +235,57 @@ Every room follows the **same pattern**, so it's quick to build and easy for stu
 | 😀 Mood faces | 5 pixel faces from 😞 to 😄 | Satisfaction / agree–disagree |
 | 🔘 Multiple choice | Stacked pixel buttons | Picking one option |
 | ✏️ Short text | Pixel "notepad" text box, optional, with a **Skip** button | "Anything else to add?" |
+
+### How answering works: the avatar does it
+
+The student's own pixel avatar stands at the bottom of every question screen and physically "does" each answer.
+
+**Picking an option (stars, faces, multiple choice):**
+1. The student taps an option.
+2. Their avatar **runs over to it** (quick walk cycle, little dust puffs behind its feet).
+3. The avatar **jumps and lands on the button**. The button squashes down like a spring, gives a "boing!" sound, and pops back up glowing in the chosen colour.
+4. Only now does the `NEXT ▶` button slide up from below.
+5. **Changing your mind:** tap a different option and the avatar hops across to it. Sometimes it stumbles on the way ("Whoa!") just for fun.
+
+**Typing an opinion (text boxes):**
+1. The avatar walks on screen **carrying a giant pencil** (bigger than itself, wobbling).
+2. It reaches the middle, wobbles, and **drops the pencil on the floor**: *CLONK!* A tiny dust cloud rises, and the avatar shrugs or looks embarrassed.
+3. Where the pencil landed, the **text box springs up out of the floor** with the label *"✏️ Start writing..."*
+4. While the student types, the avatar sits on the pencil and swings its legs. Every so often, a speech bubble says "Ooh, go on..."
+5. The `SKIP` button is always visible, so writing is never forced.
+
+**Keeping it quick (so the fun never gets annoying):**
+- Every animation lasts **under 1 second**.
+- Tapping again **skips the animation** straight to the result.
+- After the first room, animations speed up slightly, because the student already gets the joke.
+- A ⚡ "Fast mode" toggle in the pause menu turns the animations off, and the game also respects the phone's "reduce motion" setting.
+
+### Max's jokes & pop-ups (text only, no recording needed)
+
+Max pops up in a small speech bubble now and then. These lines are **text only**, so there's nothing extra to record, and they're picked at random so two students don't see exactly the same game.
+
+**After an answer (random, neutral, never judging the answer):**
+- "Noted! In my very official pixel notebook."
+- "Ooh, interesting. Writing that down... in crayon."
+- "Got it! The SSLC is going to love this."
+- "Nice jump! 10/10 landing."
+- "Boing! Sorry, I just like saying that."
+
+> Important: reactions must stay **neutral**. Max never reacts differently to a 1-star or a 5-star answer, so the jokes don't nudge students towards an answer and the data stays honest.
+
+**When the pencil drops:**
+- "Oops! Butterfingers."
+- "That was on purpose. Obviously."
+- "Pencils are heavy, okay?"
+
+**If the student goes idle for 15 seconds:**
+- Max yawns: "No rush... I'll just stand here. Being a pixel. Forever."
+- Max checks a tiny wristwatch, then starts doing push-ups.
+
+**Easter eggs (hidden fun):**
+- **Tap Max 5 times:** "Hey! That tickles!" Then: "Okay, stop poking me." Then Max does a little dance.
+- **Tap the café coffee machine:** the avatar's hair goes spiky (caffeine boost) for the rest of the game.
+- **Loading screen tips:** random lines such as *"Tip: lecturers can't see your answers. We checked. Twice."* or *"Tip: no avatars were harmed in the making of this survey."*
 
 ### 8A — Lecture Theatre (Teaching & learning)
 **NPC:** Professor character beside a projector screen.
@@ -273,7 +324,7 @@ Every room follows the **same pattern**, so it's quick to build and easy for stu
 **Visual:** After the 4th room, Max leads the player back to the foyer, where a glowing pixel **"Suggestion Box"** appears with sparkles.
 
 **Voice (Max):**
-> "Last stop! This is the Suggestion Box. If you could change ONE thing about WBS, what would it be?"
+> "Last stop! This is the Suggestion Box. If you could change ONE thing about WBS, what would it be? Apart from making me taller."
 
 **Input:** Text box (optional) + `SUBMIT` / `SKIP`.
 **Animation on submit:** A paper note folds up, flies into the box, and the box glows. Sound: "whoosh, clunk, ding!"
@@ -289,7 +340,7 @@ Every room follows the **same pattern**, so it's quick to build and easy for stu
 4. A **pixel certificate** appears showing the player's avatar, "Survey Complete — [Term] [Year]", and a stamp graphic. No name, so it stays anonymous.
 
 **Voice (Max):**
-> "That's it, you did it! Thank you so much."
+> "That's it, you did it! Thank you so much. You're officially more productive than me on a Monday."
 > "Your answers go straight to the SSLC, and we'll use them to make WBS better for everyone."
 > "Share your badge and get your coursemates to play too. See you around!"
 
@@ -334,24 +385,41 @@ Every room follows the **same pattern**, so it's quick to build and easy for stu
 
 ## Voiceover line list (for recording)
 
-All lines for the male voice actor in one place (~20 lines, about 2 minutes of audio in total):
+Paste the whole block into ElevenLabs in one go. The blank lines give natural pauses, and the finished audio is cut into separate clips during the build. (16 lines, about 2 minutes of audio.)
 
-1. "Looking good! Make yourself at home."
-2. "Hey! Hi, hello, welcome to WBS!"
-3. "I'm Max, and I'll be your guide today."
-4. "Here's the deal: the Student Staff Liaison Committee wants to know what you really think about WBS."
-5. "We'll walk through the building together. In each room, someone will ask you a few quick questions."
-6. "Just tap your answer. No right or wrong answers, and it's totally anonymous."
-7. "It takes about four minutes. Finish the tour and you'll earn your WBS Feedback Champion badge!"
-8. "Ready? Let's go!"
-9. "This is the main foyer. Let's start with the lecture theatre. Tap the glowing door!"
-10. "Nice one! Next up, the library."
-11. "Halfway there! Let's grab a coffee."
-12. "One more room: the Careers Office."
-13. "Last stop! This is the Suggestion Box. If you could change ONE thing about WBS, what would it be?"
-14. "That's it, you did it! Thank you so much."
-15. "Your answers go straight to the SSLC, and we'll use them to make WBS better for everyone."
-16. "Share your badge and get your coursemates to play too. See you around!"
+```
+Looking good! Honestly, better than my student ID photo.
+
+Hey! Hi, hello, welcome to W.B.S.!
+
+I'm Max, your guide today. I've been here so long, I'm basically part of the building.
+
+Here's the deal: the Student Staff Liaison Committee wants to know what you really think about W.B.S.
+
+We'll walk through the building together. In each room, someone will ask you a few quick questions.
+
+Just tap your answer. No right or wrong answers, and it's totally anonymous. Not even I know who you are... and I'm very nosy.
+
+It takes about four minutes. That's shorter than the coffee queue at lunchtime! Finish the tour and you'll earn your W.B.S. Feedback Champion badge.
+
+Ready? Let's go!
+
+This is the main foyer. Mind the floor, it's freshly pixelated. Let's start with the lecture theatre. Tap the glowing door!
+
+Nice one! Next up, the library. Shhh... we have to whisper in there. Okay, not really.
+
+Halfway there! Let's grab a coffee. I run on caffeine and deadlines.
+
+One more room: the Careers Office. Time to pretend we all have a five-year plan.
+
+Last stop! This is the Suggestion Box. If you could change one thing about W.B.S., what would it be? Apart from making me taller.
+
+That's it, you did it! Thank you so much. You're officially more productive than me on a Monday.
+
+Your answers go straight to the S.S.L.C., and we'll use them to make W.B.S. better for everyone.
+
+Share your badge and get your coursemates to play too. See you around!
+```
 
 ---
 
