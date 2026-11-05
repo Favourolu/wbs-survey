@@ -1062,6 +1062,8 @@
   async function sceneCorridor(room) {
     await wipe(() => {
       clearStage();
+      app.classList.remove("full");
+      bgEl.classList.remove("door-open");
       setBg("assets/bg/corridor.png");
       setProgress(room.name);
       setPanel();
