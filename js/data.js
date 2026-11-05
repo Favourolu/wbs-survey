@@ -6,7 +6,7 @@
 window.CONFIG = {
   // Paste the Google Apps Script web-app URL here (see SETUP.md).
   // While empty, answers are only logged in the browser console.
-  SHEET_URL: "",
+  SHEET_URL: "https://script.google.com/macros/s/AKfycbwWb_mzSXSz37owpn2qKnk5vGfRfx7oYNsUP5mhbyO90JUh305UbVl6K6fiiD8C05LvKg/exec",
 
   // Voiceover: put vo_01.mp3 ... vo_16.mp3 in audio/vo/.
   // If a file is missing, the browser's built-in voice reads the line instead.
