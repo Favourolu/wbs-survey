@@ -289,14 +289,39 @@ Max pops up in a small speech bubble now and then. These lines are **text only**
 
 > The questions below are the SSLC's real questions, taken from the current Google Form, split across the rooms so each room has a clear theme. The **room order stays the same**, so the voiceover script doesn't change. ✏️ text answers are always optional (with a `SKIP` button). A "↪" marks a follow-up that only appears for one answer.
 
+### Adaptive survey: questions change based on each student's answers
+
+The survey is **adaptive**. Every student gets a slightly different path depending on their course and their answers, so nobody answers a question that doesn't apply to them.
+
+**1. Based on their course (chosen in Scene 3B)**
+| Question | Who sees it |
+|---|---|
+| Workshop recordings of Foundations of Financial Accounting and Management | Only students on the courses that take this module *(course list to be confirmed by the SSLC)* |
+| Every other question | Everyone |
+
+**2. Based on their answers (follow-ups)**
+| If the student answers... | ...this appears next |
+|---|---|
+| Concerns about assignments/exams = **Yes** | ✏️ What problems do you have with assessments, exams and more? |
+| Concerns about timetable/rooms/scheduling = **Yes** | ✏️ What changes or improvements would you suggest for the timetable? |
+| Online vs in-person = **Online** or **Both** | 👍 Is the pace of teaching appropriate for online learning? |
+| Any 1–10 rating of **4 or below** | ✏️ *"Ouch. What would make it better?"* (optional) |
+| Commute between morning class and workshop = **No** | ✏️ *"What's the problem: distance, time between sessions, or something else?"* (optional) |
+
+Answering "No" or giving a good rating simply skips the follow-up, so happy students finish faster.
+
+**3. Max adapts too (text only, no extra recording)**
+- After the course is picked, Max reacts to it: *"Ooh, a Finance student! Don't worry, I won't ask you to calculate anything."*, or *"Marketing? You'll love my pixel branding."*
+- The progress bar counts only the questions this student will actually get, so it never jumps backwards.
+
 ### 8A — Lecture Theatre (Teaching & assessment), 6 questions
 **NPC:** Professor character beside a projector screen.
 **NPC:** *"Ah, a student! Pull up a chair, let's talk teaching. Don't worry, there's no exam on this."*
 1. 👍 Do you have any concerns about assignment instructions, exams, or assessment criteria? (Yes / No)
    - ↪ *If Yes:* ✏️ What problems do you have with assessments, exams and more?
 2. 🔘 Would you suggest online classes or offline (in-person) classes? (Online / In-person / Both work)
-3. 👍 Is the pace of teaching appropriate for online learning? (Yes / No)
-4. 👍 Do you want workshop recordings of Foundations of Financial Accounting and Management? (Yes / No) *(see open question: shown to every course, or only the courses that take this module?)*
+3. 👍 Is the pace of teaching appropriate for online learning? (Yes / No) *(only if they answered Online or Both)*
+4. 👍 Do you want workshop recordings of Foundations of Financial Accounting and Management? (Yes / No) *(only shown to the courses that take this module)*
 5. ✏️ Do you have any concerns or suggestions you would like us to raise with the faculty?
 
 ### 8B — Library (Study spaces), 2 questions
@@ -439,7 +464,7 @@ Share your badge and get your coursemates to play too. See you around!
 
 1. **Guide's name:** "Max" is a placeholder. Something WBS-themed?
 2. **Survey questions:** ✅ received (17 questions). To confirm:
-   - The "Foundations of Financial Accounting and Management" recording question only applies to some courses. Show it only to those courses, or reword it to "workshop recordings" in general?
+   - ✅ The Foundations of Financial Accounting and Management question stays as written. **Which courses take this module?** (Only those students will see it.)
    - The study spaces question says "rate the following aspects" but has one scale. One overall score, or separate scores (e.g. availability, noise, Wi-Fi)?
    - "Raise with the faculty" and "raise with the programme team" are similar. Keep both, or merge them?
    - "Drop a positive feedback" was required in the form. Make it optional? Forced answers tend to be one-word.
