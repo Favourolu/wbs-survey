@@ -955,19 +955,19 @@
     Pixel.draw(a.getContext("2d"), state.look, "celebrate", 1);
     g.drawImage(a, 90, 150, 112, 168);
     const b = document.createElement("canvas"); drawBadge(b);
-    g.drawImage(b, 520, 160, 128, 128);
+    g.drawImage(b, 572, 150, 104, 104);
     g.textAlign = "left";
     g.fillStyle = "#3d55c4"; g.font = "16px 'Press Start 2P', monospace";
     g.fillText("WBS FEEDBACK", 232, 205);
     g.fillText("CHAMPION", 232, 235);
-    g.fillStyle = "#14183a"; g.font = "22px 'Pixelify Sans', sans-serif";
+    g.fillStyle = "#14183a"; g.font = "18px 'Pixelify Sans', sans-serif";
     g.fillText("Survey complete · " + CONFIG.TERM_LABEL, 232, 275);
     g.fillText("Thanks for making WBS better!", 232, 305);
     g.textAlign = "center"; g.fillStyle = "#6b7088"; g.font = "18px 'Pixelify Sans', sans-serif";
     g.fillText("Warwick Business School · Student Staff Liaison Committee", 360, 410);
     // stamp
-    g.strokeStyle = "#e2574c"; g.lineWidth = 6; g.beginPath(); g.arc(600, 360, 40, 0, Math.PI * 2); g.stroke();
-    g.fillStyle = "#e2574c"; g.font = "10px 'Press Start 2P', monospace"; g.fillText("SSLC", 600, 358); g.fillText("2026", 600, 374);
+    g.strokeStyle = "#e2574c"; g.lineWidth = 6; g.beginPath(); g.arc(624, 330, 34, 0, Math.PI * 2); g.stroke();
+    g.fillStyle = "#e2574c"; g.font = "10px 'Press Start 2P', monospace"; g.fillText("SSLC", 624, 328); g.fillText("2026", 624, 344);
     return c;
   }
 
