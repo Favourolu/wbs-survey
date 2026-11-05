@@ -352,6 +352,7 @@
         b.onclick = () => { Sound.sfx("select"); done(value); };
         nextRow.append(b);
         arena.after(nextRow);
+        setTimeout(() => b.scrollIntoView({ block: "nearest", behavior: "smooth" }), 30);
       };
 
       if (q.type === "text") {
