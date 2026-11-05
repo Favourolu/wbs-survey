@@ -635,8 +635,8 @@
     await wipe(() => {
       app.classList.remove("full");
       clearStage();
-      setBg("assets/bg/title.png");
-      bgEl.style.filter = "brightness(.55)";
+      setBg("assets/bg/lounge2.png");
+      bgEl.style.filter = "brightness(.6)";
     });
     const box = el("div", "box");
     box.innerHTML = '<span class="lock-icon">🔒</span><div class="dialogue-text center">' + t("ui.anonymous") + "</div>";
@@ -785,20 +785,24 @@
     }
     const walker = addActor(state.look, { x: -8 });
     await walk(walker, 108, 34);
+    // past the "WBS Main Entrance" signpost
+    await wipe(() => { clearStage(); setBg("assets/bg/signpost.png"); });
+    const walker2 = addActor(state.look, { x: -8, bottom: "4%" });
+    await walk(walker2, 108, 34);
 
     await wipe(() => {
       clearStage();
-      setBg("assets/bg/arrival.png");
+      setBg("assets/bg/entrance.png");
       setPanel();
     });
     const me = addActor(state.look, { x: -8 });
     await walk(me, 28, 30);
     Sound.sfx("door");
     await sleep(400);
-    const max = addActor(MAX_LOOK, { x: 52, hidden: true, name: CONFIG.GUIDE_NAME });
+    const max = addActor(MAX_LOOK, { x: 66, hidden: true, name: CONFIG.GUIDE_NAME });
     maxActor = max;
     fadeActor(max, true);
-    await walk(max, 60, 20);
+    await walk(max, 58, 20);
     max.sprite.face(true);
     bubble(max, "!", null, 900);
     Sound.sfx("ding");
@@ -903,7 +907,8 @@
     const ring = el("div", "reader-ring"); ring.style.left = rd.x + "px"; ring.style.top = rd.y + "px";
     const screenGlow = el("div", "screen-glow"); screenGlow.style.left = scr.x + "px"; screenGlow.style.top = scr.y + "px";
     screenGlow.textContent = t("ui.cardGranted");
-    const head = el("div", "card-head", "<b>" + esc(t("ui.cardTitle")) + "</b><span>" + esc(t("ui.cardHint")) + "</span>");
+    const head = el("div", "card-head", "<b>" + esc(t("ui.cardTitle")) + "</b><span>" + esc(t("ui.cardHint")) + '</span><em class="card-max"></em>');
+    const sayHead = (txt) => { const m = head.querySelector(".card-max"); m.textContent = CONFIG.GUIDE_NAME + ": " + txt; m.classList.remove("pop"); void m.offsetWidth; m.classList.add("pop"); };
     // the student card: shows the player's own avatar
     const card = el("div", "idcard");
     const face = document.createElement("canvas"); face.width = 16; face.height = 12;
@@ -918,14 +923,20 @@
     fx.append(ring, screenGlow, head);
     app.append(card, auto);
     fx.style.pointerEvents = "none";
-    const max = addActor(MAX_LOOK, { x: 78, bottom: "2%", name: CONFIG.GUIDE_NAME, flip: true, scale: 3 });
+    const max = addActor(MAX_LOOK, { x: 86, bottom: "2%", name: CONFIG.GUIDE_NAME, flip: true, scale: 3 });
     maxActor = max;
-    bubble(max, t("lines.cardMax"), CONFIG.GUIDE_NAME, 4500);
+    sayHead(t("lines.cardMax"));
 
     // starting spot for the card (bottom middle)
+    const placeAuto = () => {
+      const a = app.getBoundingClientRect();
+      auto.style.top = (head.getBoundingClientRect().bottom - a.top + 12) + "px";
+    };
+    placeAuto();
     const home = () => {
       const a = app.getBoundingClientRect();
-      return { x: a.width / 2 - 55, y: a.height - 170 };
+      const below = auto.getBoundingClientRect().bottom - a.top + 74;
+      return { x: a.width / 2 - 20, y: Math.max(below, a.height * 0.38) };
     };
     let pos = home();
     const place = (rot) => { card.style.transform = `translate(${pos.x}px, ${pos.y}px) rotate(${rot || 0}deg)`; };
@@ -948,7 +959,7 @@
       Sound.sfx("blip"); await sleep(120); Sound.sfx("ding");
       ring.classList.add("ok"); screenGlow.classList.add("on");
       max.sprite.set("celebrate");
-      bubble(max, t("lines.cardDone"), CONFIG.GUIDE_NAME, 2000);
+      sayHead(t("lines.cardDone"));
       await sleep(1100);
       Sound.sfx("door");
       card.style.transition = "transform .4s steps(5), opacity .4s steps(5)";
@@ -980,7 +991,7 @@
       const cx = pos.x + CARD_W / 2, cy = pos.y + CARD_H / 2;
       if (Math.hypot(cx - r.x, cy - r.y) < 70) succeed();
       else {
-        bubble(max, t("lines.cardMiss"), CONFIG.GUIDE_NAME, 1800);
+        sayHead(t("lines.cardMiss"));
         card.style.transition = "transform .25s steps(4)"; pos = home(); place(-8);
       }
     };
@@ -990,6 +1001,18 @@
     await finished;
     card.remove(); auto.remove();
     fx.style.pointerEvents = "";
+  }
+
+  // ---------- short walk-in shot (e.g. the District café entrance) ----------
+  async function sceneWalkIn(bg) {
+    await wipe(() => { clearStage(); setBg(bg); setPanel(); app.classList.add("full"); });
+    const me = addActor(state.look, { x: 10, bottom: "4%" });
+    const max = addActor(MAX_LOOK, { x: 2, bottom: "4%", name: CONFIG.GUIDE_NAME });
+    walk(max, 68, 30);
+    await walk(me, 76, 30);
+    Sound.sfx("door");
+    fadeActor(me, false); fadeActor(max, false);
+    await sleep(300);
   }
 
   // ---------- a room ----------
@@ -1032,7 +1055,7 @@
   async function sceneCorridor(room) {
     await wipe(() => {
       clearStage();
-      setBg(drawCorridor);
+      setBg("assets/bg/corridor.png");
       setProgress(room.name);
       setPanel();
     });
@@ -1075,7 +1098,7 @@
   async function sceneSuggestions() {
     await wipe(() => {
       clearStage();
-      setBg("assets/bg/foyer.png");
+      setBg("assets/bg/lounge.png");
       setProgress("Suggestion Box");
       setPanel();
     });
@@ -1252,6 +1275,7 @@
       const room = ROOMS.find((r) => r.id === id);
       await sceneFoyer(id, vos[id]);
       if (id === "lecture") await sceneCardTap();
+      if (id === "cafe") await sceneWalkIn("assets/bg/district.png");
       await sceneRoom(room);
       if (id === "lecture") {
         const corridor = ROOMS.find((r) => r.id === "corridor");
@@ -1263,7 +1287,7 @@
   }
 
   // preload backgrounds, then go
-  ["title", "road", "arrival", "foyer", "cardreader", "lecture", "library", "cafe", "careers", "quotewall"].forEach((n) => { const i = new Image(); i.src = "assets/bg/" + n + ".png"; });
+  ["title", "lounge2", "road", "signpost", "entrance", "foyer", "cardreader", "lecture", "corridor", "library", "district", "cafe", "careers", "lounge", "quotewall"].forEach((n) => { const i = new Image(); i.src = "assets/bg/" + n + ".png"; });
   main().catch((e) => { console.error(e); setPanel(el("div", "box", esc(t("ui.error")))); });
 
   // test hooks (used by automated checks only)
