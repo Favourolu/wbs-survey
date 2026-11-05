@@ -311,3 +311,34 @@ body.fast *, body.fast *::before, body.fast *::after { animation-duration: 0.01m
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
 @media (min-height: 760px) { .dialogue-text { font-size: 20px; } }
+
+/* ---------------- LANGUAGES ---------------- */
+.lang-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 4px; }
+.lang-btn { text-align: center; padding: 12px 6px; margin: 0; font-size: 19px; }
+.lang-btn small { font-size: 12px; margin-top: 2px; }
+html.nonlatin .title, html.nonlatin .speaker, html.nonlatin .press-start, html.nonlatin .banner,
+html.nonlatin .title-screen h1, html.nonlatin .btn.primary, html.nonlatin .group-label, html.nonlatin #progress,
+html.nonlatin .door .lbl, html.nonlatin .opt-val .lbl, html.nonlatin .grid-yesno .btn { font-weight: 800; letter-spacing: 0; }
+html.nonlatin .title-screen h1 { font-size: 26px; }
+html.nonlatin .title-screen h1 span { font-size: 36px; }
+html.nonlatin .speaker { font-size: 12px; }
+html.nonlatin h2.title { font-size: 17px; }
+html.nonlatin .btn.primary { font-size: 17px; }
+html.nonlatin .door .lbl { font-size: 10px; }
+html.nonlatin .opt-val .lbl { font-size: 11px; }
+html.nonlatin .group-label { font-size: 13px; }
+html.nonlatin .banner { font-size: 22px; }
+html.nonlatin .banner small { font-size: 13px; }
+html.nonlatin .press-start { font-size: 18px; }
+html.nonlatin #progress { font-size: 11px; }
+html.nonlatin .grid-yesno .btn { font-size: 18px; }
+html[dir="rtl"] .opt-row, html[dir="rtl"] .hearts, html[dir="rtl"] .scale-labels, html[dir="rtl"] #hud { direction: ltr; }
+html[dir="rtl"] .opt-val, html[dir="rtl"] .scale-labels span { direction: rtl; }
+html[dir="rtl"] .speaker { left: auto; right: 10px; }
+html[dir="rtl"] .next-hint { right: auto; left: 10px; transform: scaleX(-1); }
+html[dir="rtl"] .btn { text-align: right; }
+html[dir="rtl"] .course-btn .code { float: left; }
+#app.picker #stage { flex: 0 0 26%; }
+#app.picker .title-screen { padding-top: 6%; }
+#app.picker .title-screen h1 { font-size: 34px !important; }
+html.nonlatin .box { padding-top: 22px; }

@@ -103,39 +103,47 @@
 
   // ---- Voiceover ----
   let voAudio = null, voToken = 0;
+  let lang = { code: "en", speech: "en-GB", text: (n) => (window.VO || {})[n] };
   const missing = new Set();
   function pickVoice() {
     if (!("speechSynthesis" in window)) return null;
     const vs = speechSynthesis.getVoices();
-    return vs.find((v) => /en-GB/i.test(v.lang) && /male|daniel|arthur|george|ryan|oliver/i.test(v.name))
-      || vs.find((v) => /en-GB/i.test(v.lang)) || vs.find((v) => /^en/i.test(v.lang)) || null;
+    const full = lang.speech.toLowerCase(), base = full.split("-")[0];
+    const same = vs.filter((v) => v.lang.toLowerCase().replace("_", "-").startsWith(base));
+    return same.find((v) => v.lang.toLowerCase().replace("_", "-") === full && /male|daniel|arthur|george|ryan|oliver|thomas|jorge|kyoko|otoya/i.test(v.name))
+      || same.find((v) => v.lang.toLowerCase().replace("_", "-") === full) || same[0] || null;
   }
   function stopVoice() {
     voToken++;
     if (voAudio) { voAudio.pause(); voAudio = null; }
     if ("speechSynthesis" in window) speechSynthesis.cancel();
   }
-  // Resolves when the line finishes (or immediately if voice is off)
+  // Resolves when the line finishes (or immediately if voice is off).
+  // Uses audio/vo/<lang>/vo_XX.mp3; if that file is missing, the browser's own
+  // voice for that language reads the line (silent if the device has none).
   function speak(num) {
     stopVoice();
     if (!voiceOn || !num) return Promise.resolve();
     const token = voToken;
+    const key = lang.code + num;
     const tts = () => new Promise((res) => {
       if (!CONFIG.TTS_FALLBACK || !("speechSynthesis" in window)) return res();
-      const u = new SpeechSynthesisUtterance(VO[num]);
-      const v = pickVoice(); if (v) u.voice = v;
-      u.lang = "en-GB"; u.rate = 1.05; u.pitch = 0.95;
+      const v = pickVoice();
+      if (!v) return res();
+      const u = new SpeechSynthesisUtterance(lang.text(num));
+      u.voice = v; u.lang = lang.speech; u.rate = 1.05; u.pitch = 0.95;
       u.onend = u.onerror = () => res();
       speechSynthesis.speak(u);
-      setTimeout(res, 12000);
+      setTimeout(res, 15000);
     });
-    if (missing.has(num)) return tts();
+    if (missing.has(key)) return tts();
     return new Promise((res) => {
-      const a = new Audio(CONFIG.VO_PATH + "vo_" + String(num).padStart(2, "0") + ".mp3");
+      const a = new Audio(CONFIG.VO_PATH + lang.code + "/vo_" + String(num).padStart(2, "0") + ".mp3");
       voAudio = a;
+      const fail = () => { missing.add(key); if (token === voToken) tts().then(res); else res(); };
       a.onended = () => res();
-      a.onerror = () => { missing.add(num); if (token === voToken) tts().then(res); else res(); };
-      a.play().catch(() => { missing.add(num); if (token === voToken) tts().then(res); else res(); });
+      a.onerror = fail;
+      a.play().catch(fail);
     });
   }
 
@@ -144,6 +152,7 @@
     sfx(name) { try { if (ctx && SFX[name]) SFX[name](); } catch (e) {} },
     music: playMusic,
     speak, stopVoice,
+    setLanguage(code, speech, text) { lang = { code, speech, text }; },
     get musicOn() { return musicOn; },
     get voiceOn() { return voiceOn; },
     toggleMusic() { musicOn = !musicOn; if (musicOn) playMusic(currentSong); else stopMusicLoop(); return musicOn; },

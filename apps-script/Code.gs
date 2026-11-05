@@ -12,8 +12,16 @@
 var SHEET_NAME = 'Responses';
 
 // Column order for the Sheet. Any new answer keys are added at the end automatically.
+// Written (free-text) answers. If the student played in another language,
+// an English translation is added in a "<name>_en" column next to it.
+var TEXT_ANSWERS = [
+  'assess_problems', 'raise_faculty', 'ffma_problems', 'qmb_problems', 'sap_support', 'spec_problems',
+  'study_spaces_why', 'timetable_changes', 'commute_why', 'su_rating_why', 'careers_rating_why',
+  'raise_programme', 'positive_feedback'
+];
+
 var BASE_COLUMNS = [
-  'session', 'status', 'updated', 'gender', 'course', 'course_code',
+  'session', 'status', 'updated', 'language', 'gender', 'course', 'course_code',
   // Lecture Theatre
   'assess_concern', 'assess_problems', 'online_offline', 'online_pace', 'ffma_recording', 'raise_faculty',
   // Module Corridor (MBM, MBOM, MINT, MBC only)
@@ -35,6 +43,17 @@ function doPost(e) {
   try {
     var data = JSON.parse(e.postData.contents);
     if (!data || !data.session) return out_('missing session');
+
+    // translate written answers into English (Google Translate, built into Apps Script)
+    var lang = data.language || 'en';
+    if (lang !== 'en') {
+      TEXT_ANSWERS.forEach(function (k) {
+        if (data[k]) {
+          try { data[k + '_en'] = LanguageApp.translate(String(data[k]), '', 'en'); }
+          catch (err) { data[k + '_en'] = '(translation failed)'; }
+        }
+      });
+    }
 
     var sheet = getSheet_();
     var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];

@@ -17,8 +17,24 @@
   const reduced = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   const isFast = () => reduced || document.body.classList.contains("fast");
   const sleep = (ms) => new Promise((r) => setTimeout(r, isFast() ? Math.min(ms, 40) : ms));
-  const subtitle = (t) => t.replace(/W\.B\.S\./g, "WBS").replace(/S\.S\.L\.C\./g, "SSLC");
+  const subtitle = (x) => x.replace(/W\.B\.S\./g, "WBS").replace(/S\.S\.L\.C\./g, "SSLC").replace(/W B S/g, "WBS").replace(/S S L C/g, "SSLC");
   const params = new URLSearchParams(location.search);
+
+  // ---------- language ----------
+  const EN = LANG_PACKS.en;
+  let L = EN;
+  const dig = (o, path) => path.split(".").reduce((x, k) => (x == null ? x : x[k]), o);
+  function t(path, vars) {
+    let v = dig(L, path);
+    if (v == null || v === "") v = dig(EN, path);
+    if (v == null) return path;
+    if (vars && typeof v === "string") v = v.replace(/\{(\w+)\}/g, (m, k) => (vars[k] != null ? vars[k] : m));
+    return v;
+  }
+  const opt = (o) => { const v = dig(L, "options." + o) || dig(EN, "options." + o); return v || o; };
+  const roomName = (id) => t("rooms." + id);
+  const VOtext = (n) => t("vo." + n);
+  window.__t = t;
 
   function tween(ms, fn) {
     return new Promise((res) => {
@@ -57,6 +73,7 @@
         gender: state.gender,
         course: state.course,
         course_code: state.courseCode || "",
+        language: L.meta.code,
       }, state.answers);
       this.pending = payload;
       try { localStorage.setItem("wbs_pending", JSON.stringify(payload)); } catch (e) {}
@@ -91,7 +108,7 @@
     const i = progressSteps.indexOf(name);
     const p = $("#progress");
     p.innerHTML = "";
-    p.append(el("span", null, "FLOOR " + Math.max(1, i + 1) + "/" + progressSteps.length));
+    p.append(el("span", null, t("ui.floor") + " " + Math.max(1, i + 1) + "/" + progressSteps.length));
     const bar = el("div", "bar");
     progressSteps.forEach((_, k) => bar.append(el("i", "seg" + (k < i ? " done" : k === i ? " now" : ""))));
     p.append(bar);
@@ -102,7 +119,7 @@
   $("#btn-fast").onclick = (e) => {
     const on = document.body.classList.toggle("fast");
     e.currentTarget.classList.toggle("off", !on);
-    toast(on ? "⚡ Fast mode on" : "Fast mode off");
+    toast(on ? t("ui.fastOn") : t("ui.fastOff"));
   };
   $("#btn-fast").classList.add("off");
   function toast(text) {
@@ -242,7 +259,7 @@
     clearTimeout(idleTimer);
     idleTimer = setTimeout(() => {
       if (maxActor && maxActor.wrap.isConnected) {
-        bubble(maxActor, pick(IDLE_QUIPS), CONFIG.GUIDE_NAME, 3500);
+        bubble(maxActor, pick(t("idleQuips")), CONFIG.GUIDE_NAME, 3500);
         maxActor.sprite.set("talk"); setTimeout(() => maxActor.sprite.set("idle"), 1500);
       }
     }, 15000);
@@ -250,6 +267,10 @@
 
   const HEART_SVG = '<svg viewBox="0 0 10 9" shape-rendering="crispEdges"><path d="M1 0h3v1h2V0h3v1h1v4H9v1H8v1H7v1H6v1H4V8H3V7H2V6H1V5H0V1h1z" fill="#000"/><path class="fill" d="M1 1h3v1h2V1h3v4H8v1H7v1H6v1H4V7H3V6H2V5H1z" fill="#f3ead6"/><path d="M2 2h1v1H2z" fill="#fff"/></svg>';
 
+  function qText(q) {
+    const tr = q.id ? dig(L, "questions." + q.id) || dig(EN, "questions." + q.id) : null;
+    return fill(tr || q.text);
+  }
   function fill(text) {
     const spec = state.courseCode && MODULE_COURSES[state.courseCode];
     return text.replace(/\{course\}/g, state.course || "your course")
@@ -318,7 +339,7 @@
       armIdle();
       const box = el("div", "box");
       box.append(el("span", "speaker", esc(speaker)));
-      box.append(el("div", "dialogue-text q", esc(fill(q.text))));
+      box.append(el("div", "dialogue-text q", esc(qText(q))));
       if (npc) { npc.sprite.set("talk"); setTimeout(() => npc.sprite.set("idle"), 1200); }
       const arena = el("div", "arena");
       const nextRow = el("div", "next-row");
@@ -327,7 +348,7 @@
       const done = (v) => { clearTimeout(idleTimer); resolve(v); };
       const showNext = () => {
         if (nextRow.childElementCount) return;
-        const b = el("button", "btn primary", "NEXT ▶");
+        const b = el("button", "btn primary", t("ui.next"));
         b.onclick = () => { Sound.sfx("select"); done(value); };
         nextRow.append(b);
         arena.after(nextRow);
@@ -344,7 +365,7 @@
         const opts = q.type === "yesno" ? ["Yes", "No"] : q.options;
         group = el("div", q.type === "yesno" || opts.every((o) => o.length < 10) && opts.length <= 2 ? "grid-yesno" : "");
         opts.forEach((o) => {
-          const b = el("button", "btn", esc(o));
+          const b = el("button", "btn", esc(opt(o)));
           b.onclick = () => choose(b, o);
           group.append(b);
         });
@@ -352,13 +373,13 @@
         group = el("div", "hearts");
         for (let n = 1; n <= 10; n++) {
           const b = el("button", "heart", HEART_SVG + "<span>" + n + "</span>");
-          b.setAttribute("aria-label", n + " out of 10");
+          b.setAttribute("aria-label", t("ui.outOf10", { n }));
           b.onclick = () => choose(b, n);
           group.append(b);
         }
       }
       arena.append(group);
-      if (q.type === "hearts") arena.append(el("div", "scale-labels", "<span>1 · Very poor</span><span>10 · Excellent</span>"));
+      if (q.type === "hearts") arena.append(el("div", "scale-labels", "<span>" + esc(t("ui.veryPoor")) + "</span><span>" + esc(t("ui.excellent")) + "</span>"));
       setPanel(box, arena);
       const chooser = makeChooser(arena, state.look);
 
@@ -406,26 +427,26 @@
       d.style.setProperty("--dx", (i - 3) * 6 + "px");
       zone.append(d); setTimeout(() => d.remove(), 600);
     }
-    if (maxActor && maxActor.wrap.isConnected && Math.random() < 0.6) bubble(maxActor, pick(PENCIL_QUIPS), CONFIG.GUIDE_NAME, 2200);
+    if (maxActor && maxActor.wrap.isConnected && Math.random() < 0.6) bubble(maxActor, pick(t("pencilQuips")), CONFIG.GUIDE_NAME, 2200);
     // avatar sits on the pencil swinging its legs
     s.set("sit");
     // text box springs up out of the floor
     const ta = el("textarea", "note");
-    ta.placeholder = "✏️ Start writing...";
+    ta.placeholder = t("ui.startWriting");
     ta.maxLength = 2000;
-    ta.setAttribute("aria-label", fill(q.text));
+    ta.setAttribute("aria-label", qText(q));
     arena.append(ta);
     const row = el("div", "row next-row");
     row.style.marginTop = "16px";
-    const skip = el("button", "btn ghost", "SKIP");
-    const send = el("button", "btn primary", "SUBMIT ▶");
+    const skip = el("button", "btn ghost", t("ui.skip"));
+    const send = el("button", "btn primary", t("ui.submit"));
     row.append(skip, send);
     arena.append(row);
     let cheer = null;
     ta.addEventListener("input", () => {
       armIdle();
       if (!cheer && ta.value.length > 12 && maxActor && Math.random() < 0.5) {
-        cheer = bubble(maxActor, "Ooh, go on...", CONFIG.GUIDE_NAME, 1800);
+        cheer = bubble(maxActor, t("lines.goOn"), CONFIG.GUIDE_NAME, 1800);
       }
     });
     return new Promise((res) => {
@@ -444,12 +465,12 @@
       const v = await ask(q, speaker, npc);
       if (v != null) state.answers[q.id] = v; else delete state.answers[q.id];
       if (npc) { npc.sprite.set("jump"); setTimeout(() => npc.sprite.set("idle"), 250); }
-      if (maxActor && Math.random() < 0.45) bubble(maxActor, pick(ANSWER_QUIPS), CONFIG.GUIDE_NAME, 2000);
+      if (maxActor && Math.random() < 0.45) bubble(maxActor, pick(t("answerQuips")), CONFIG.GUIDE_NAME, 2000);
     }
   }
 
   async function roomCleared(label) {
-    const b = el("div", "banner", "ROOM CLEARED!<small>" + esc(label) + " ✅</small>");
+    const b = el("div", "banner", esc(t("ui.roomCleared")) + "<small>" + esc(label) + " ✅</small>");
     fx.append(b);
     Sound.sfx("cleared");
     setTimeout(() => Sound.sfx("coin"), 500);
@@ -505,6 +526,73 @@
   // SCENES
   // =================================================================
 
+  // ---------- language picker ----------
+  const LANG_ORDER = ["en", "zh", "hi", "ar", "es", "fr", "ko", "ja", "id", "pt"];
+  const ENGLISH_NAMES = { en: "English", zh: "Chinese", hi: "Hindi", ar: "Arabic", es: "Spanish", fr: "French", ko: "Korean", ja: "Japanese", id: "Indonesian", pt: "Portuguese" };
+  const FONTS = {
+    zh: ["Noto+Sans+SC:wght@500;800", "'Noto Sans SC', sans-serif"],
+    ja: ["DotGothic16", "'DotGothic16', sans-serif"],
+    ko: ["Noto+Sans+KR:wght@500;800", "'Noto Sans KR', sans-serif"],
+    hi: ["Noto+Sans+Devanagari:wght@500;800", "'Noto Sans Devanagari', sans-serif"],
+    ar: ["Noto+Kufi+Arabic:wght@500;800", "'Noto Kufi Arabic', sans-serif"],
+  };
+  function applyLanguage(code) {
+    L = LANG_PACKS[code] || EN;
+    const root = document.documentElement;
+    root.lang = L.meta.code;
+    root.dir = L.meta.dir || "ltr";
+    const f = FONTS[L.meta.code];
+    if (f) {
+      if (!document.getElementById("font-" + L.meta.code)) {
+        const link = document.createElement("link");
+        link.id = "font-" + L.meta.code; link.rel = "stylesheet";
+        link.href = "https://fonts.googleapis.com/css2?family=" + f[0] + "&display=swap";
+        document.head.append(link);
+      }
+      root.style.setProperty("--font-title", f[1]);
+      root.style.setProperty("--font-body", f[1]);
+      root.classList.add("nonlatin");
+    } else {
+      root.style.removeProperty("--font-title");
+      root.style.removeProperty("--font-body");
+      root.classList.remove("nonlatin");
+    }
+    document.title = t("ui.surveyTitle");
+    Sound.setLanguage(L.meta.code, L.meta.speech, (n) => t("vo." + n));
+  }
+
+  async function sceneLanguage() {
+    const codes = LANG_ORDER.filter((c) => LANG_PACKS[c]);
+    const wanted = params.get("lang");
+    if (wanted && LANG_PACKS[wanted]) { applyLanguage(wanted); return; }
+    if (codes.length < 2) { applyLanguage("en"); return; }
+    app.classList.remove("full");
+    app.classList.add("picker");
+    showHud(false);
+    clearStage();
+    setBg("assets/bg/title.png");
+    bgEl.style.filter = "brightness(.6)";
+    const globe = el("div", "title-screen");
+    globe.innerHTML = '<h1 style="font-size:44px">🌐</h1><div class="sub">WBS SURVEY</div>';
+    fx.append(globe);
+    const grid = el("div", "lang-grid");
+    let chosen;
+    const picked = new Promise((r) => (chosen = r));
+    codes.forEach((c) => {
+      const b = el("button", "btn lang-btn", '<span lang="' + c + '">' + esc(LANG_PACKS[c].meta.name) + "</span><small>" + ENGLISH_NAMES[c] + "</small>");
+      b.onclick = () => { b.classList.add("chosen"); chosen(c); };
+      grid.append(b);
+    });
+    setPanel(el("h2", "title", "🌐 LANGUAGE"), grid);
+    const code = await picked;
+    Sound.init();
+    Sound.sfx("select");
+    applyLanguage(code);
+    app.classList.remove("picker");
+    bgEl.style.filter = "";
+    await sleep(250);
+  }
+
   async function sceneTitle() {
     app.classList.add("full");
     showHud(false);
@@ -525,18 +613,18 @@
       scenery.append(w);
     }
     const already = (() => { try { return localStorage.getItem("wbs_done") === "1"; } catch (e) { return false; } })();
-    const t = el("div", "title-screen");
-    t.innerHTML = '<h1>WELCOME TO THE<span>WBS SURVEY</span></h1><div class="sub">Your voice. Your school. Level up WBS.</div>';
+    const ts = el("div", "title-screen");
+    ts.innerHTML = "<h1>" + t("ui.welcomeTo") + "<span>" + t("ui.surveyTitle") + '</span></h1><div class="sub">' + t("ui.tagline") + "</div>";
     if (already && !params.has("again")) {
-      t.append(el("div", "sub", "🏆 You've already completed the survey.<br>Thank you, Feedback Champion!"));
-      t.append(el("div", "tip", "Tell your coursemates to play too!"));
-      fx.append(t);
+      ts.append(el("div", "sub", t("ui.alreadyDone")));
+      ts.append(el("div", "tip", t("ui.tellCoursemates")));
+      fx.append(ts);
       return new Promise(() => {}); // end here
     }
-    const start = el("button", "press-start", "▶ PRESS START");
-    t.append(start);
-    t.append(el("div", "tip", esc(pick(LOADING_TIPS))));
-    fx.append(t);
+    const start = el("button", "press-start", t("ui.pressStart"));
+    ts.append(start);
+    ts.append(el("div", "tip", esc(pick(t("tips")))));
+    fx.append(ts);
     await new Promise((r) => (start.onclick = r));
     Sound.init();
     Sound.sfx("coin");
@@ -551,9 +639,9 @@
       bgEl.style.filter = "brightness(.55)";
     });
     const box = el("div", "box");
-    box.innerHTML = '<span class="lock-icon">🔒</span><div class="dialogue-text center"><b>This survey is 100% anonymous.</b><br>No names. No emails. No student IDs.<br>Your answers go to the SSLC to improve WBS.</div>';
-    const b = el("button", "btn primary", "GOT IT ▶");
-    setPanel(el("h2", "title", "BEFORE WE START"), box, b);
+    box.innerHTML = '<span class="lock-icon">🔒</span><div class="dialogue-text center">' + t("ui.anonymous") + "</div>";
+    const b = el("button", "btn primary", t("ui.gotIt"));
+    setPanel(el("h2", "title", esc(t("ui.beforeWeStart"))), box, b);
     Sound.sfx("ding");
     await new Promise((r) => (b.onclick = r));
     Sound.sfx("select");
@@ -574,7 +662,7 @@
     const me = selectStage(Pixel.NPC_LOOKS.mystery);
     const look = state.look;
     state.look = Pixel.NPC_LOOKS.mystery; // chooser is a mystery student for now
-    const v = await ask({ type: "choice", text: "First, tell us a little about you.", options: ["Male", "Female", "Non-binary", "Prefer not to say"] }, "PLAYER SELECT");
+    const v = await ask({ type: "choice", text: t("ui.aboutYouQ"), options: ["Male", "Female", "Non-binary", "Prefer not to say"] }, t("ui.playerSelect"));
     state.look = look;
     state.gender = v;
     me.sprite.set("celebrate"); Sound.sfx("select");
@@ -584,19 +672,20 @@
   async function sceneCourse() {
     const me = selectStage(Pixel.NPC_LOOKS.mystery);
     const head = el("div", "box");
-    head.append(el("span", "speaker", "SELECT YOUR COURSE"));
-    head.append(el("div", "dialogue-text q", "Which course are you on?"));
+    head.append(el("span", "speaker", esc(t("ui.selectCourse"))));
+    head.append(el("div", "dialogue-text q", esc(t("ui.whichCourse"))));
     const search = el("input", "search");
-    search.type = "search"; search.placeholder = "🔎 Search (e.g. fin, MBC)"; search.setAttribute("aria-label", "Search courses");
+    search.type = "search"; search.placeholder = t("ui.searchCourses"); search.setAttribute("aria-label", "Search courses");
     const list = el("div");
     let chosen;
     const picked = new Promise((r) => (chosen = r));
     COURSE_GROUPS.forEach((g) => {
       const sec = el("div", "course-group");
-      sec.append(el("div", "group-label", "▸ " + esc(g.group.toUpperCase())));
+      sec.append(el("div", "group-label", "▸ " + esc(t("courseGroups." + g.group).toUpperCase())));
       g.courses.forEach(([name, code]) => {
-        const b = el("button", "btn course-btn", (code ? '<span class="code">' + code + "</span>" : "") + esc(name));
-        b.dataset.search = (name + " " + (code || "")).toLowerCase();
+        const shown = name === "Other / Prefer not to say" ? t("otherCourse") : name;
+        const b = el("button", "btn course-btn", (code ? '<span class="code">' + code + "</span>" : "") + esc(shown));
+        b.dataset.search = (name + " " + shown + " " + (code || "")).toLowerCase();
         b.onclick = () => { Sound.sfx("select"); b.classList.add("flash"); chosen([name, code || null]); };
         sec.append(b);
       });
@@ -616,7 +705,8 @@
     if (code && MODULE_COURSES[code]) progressSteps = ["About you", "Lecture Theatre", "Module Corridor", "Library", "Café", "Careers Office", "Suggestion Box"];
     setProgress("About you");
     await sleep(500);
-    const quip = (COURSE_QUIPS.find(([k]) => name.includes(k)) || [null, "Nice choice!"])[1];
+    const hit = COURSE_QUIPS.find(([k]) => name.includes(k));
+    const quip = hit ? t("courseQuips." + hit[0]) : t("ui.niceChoice");
     me.sprite.set("jump"); setTimeout(() => me.sprite.set("idle"), 300);
     await say("???", quip);
   }
@@ -627,14 +717,14 @@
     const L = state.look;
     let firstChange = true;
     const rows = [
-      { key: "skin", label: "SKIN TONE", list: Pixel.SKIN.map((_, i) => i), show: (v) => '<span class="swatch" style="background:' + Pixel.SKIN[v] + '"></span>' + (v + 1) },
-      { key: "hair", label: "HAIR", list: Pixel.HAIR_STYLES, show: (v) => ({ short: "Short", long: "Long", afro: "Afro", bun: "Bun", braids: "Braids", hijab: "Hijab", buzz: "Buzz cut", curly: "Curly" }[v]) },
-      { key: "hairColor", label: "HAIR / HIJAB COLOUR", list: Pixel.HAIR_COLORS.map((_, i) => i), show: (v) => '<span class="swatch" style="background:' + Pixel.HAIR_COLORS[v] + '"></span>' },
-      { key: "outfit", label: "OUTFIT", list: Pixel.OUTFITS, show: (v) => ({ hoodie: "WBS hoodie", smart: "Smart", casual: "Casual", sporty: "Sporty", dress: "Dress" }[v]) },
-      { key: "outfitColor", label: "OUTFIT COLOUR", list: Pixel.OUTFIT_COLORS.map((_, i) => i), show: (v) => '<span class="swatch" style="background:' + Pixel.OUTFIT_COLORS[v] + '"></span>' },
-      { key: "accessory", label: "ACCESSORY", list: Pixel.ACCESSORIES, show: (v) => ({ none: "None", glasses: "Glasses", headphones: "Headphones", cap: "Cap", earrings: "Earrings" }[v]) },
+      { key: "skin", label: t("ui.skinTone"), list: Pixel.SKIN.map((_, i) => i), show: (v) => '<span class="swatch" style="background:' + Pixel.SKIN[v] + '"></span>' + (v + 1) },
+      { key: "hair", label: t("ui.hair"), list: Pixel.HAIR_STYLES, show: (v) => esc(t("looks." + v)) },
+      { key: "hairColor", label: t("ui.hairColour"), list: Pixel.HAIR_COLORS.map((_, i) => i), show: (v) => '<span class="swatch" style="background:' + Pixel.HAIR_COLORS[v] + '"></span>' },
+      { key: "outfit", label: t("ui.outfit"), list: Pixel.OUTFITS, show: (v) => esc(t("looks." + v)) },
+      { key: "outfitColor", label: t("ui.outfitColour"), list: Pixel.OUTFIT_COLORS.map((_, i) => i), show: (v) => '<span class="swatch" style="background:' + Pixel.OUTFIT_COLORS[v] + '"></span>' },
+      { key: "accessory", label: t("ui.accessory"), list: Pixel.ACCESSORIES, show: (v) => esc(t("looks." + v)) },
     ];
-    const head = el("h2", "title", "CREATE YOUR PLAYER");
+    const head = el("h2", "title", esc(t("ui.createPlayer")));
     const wrap = el("div");
     const update = () => {
       me.sprite.setLook(L);
@@ -644,7 +734,7 @@
       Sound.sfx("poof");
       const sp = el("div", "bubble", "✨"); sp.style.left = "60%"; sp.style.top = "30%"; sp.style.padding = "2px 4px";
       fx.append(sp); setTimeout(() => sp.remove(), 300);
-      if (firstChange) { firstChange = false; setTimeout(() => { Sound.speak(1); bubble(null, subtitle(VO[1]), "???", 3500); }, 400); }
+      if (firstChange) { firstChange = false; setTimeout(() => { Sound.speak(1); bubble(null, subtitle(VOtext(1)), "???", 3500); }, 400); }
     };
     rows.forEach((r) => {
       const row = el("div", "opt-row");
@@ -656,7 +746,7 @@
       row.append(prev, mid, next);
       wrap.append(row);
     });
-    const rnd = el("button", "btn ghost", "🎲 RANDOM");
+    const rnd = el("button", "btn ghost", t("ui.random"));
     rnd.onclick = async () => {
       for (let k = 0; k < (isFast() ? 1 : 8); k++) {
         rows.forEach((r) => (L[r.key] = pick(r.list)));
@@ -664,7 +754,7 @@
       }
       changed();
     };
-    const ready = el("button", "btn primary", "READY ▶");
+    const ready = el("button", "btn primary", t("ui.ready"));
     rnd.style.marginTop = "6px";
     setPanel(head, wrap, rnd, ready);
     update();
@@ -682,7 +772,7 @@
     await wipe(() => {
       clearStage();
       setBg("assets/bg/road.png");
-      setPanel(el("div", "box", '<div class="dialogue-text center">Heading to WBS... 🍂</div>'));
+      setPanel(el("div", "box", '<div class="dialogue-text center">' + esc(t("ui.headingToWbs")) + "</div>"));
     });
     Sound.music("explore");
     for (let i = 0; i < 14; i++) {
@@ -716,13 +806,13 @@
     me.sprite.face(false);
     hookMaxEasterEgg(max);
 
-    await say(CONFIG.GUIDE_NAME, VO[2], { vo: 2, talker: max, endPose: "wave" });
-    await say(CONFIG.GUIDE_NAME, VO[3], { vo: 3, talker: max });
+    await say(CONFIG.GUIDE_NAME, VOtext(2), { vo: 2, talker: max, endPose: "wave" });
+    await say(CONFIG.GUIDE_NAME, VOtext(3), { vo: 3, talker: max });
     for (const n of [4, 5, 6, 7]) {
       me.sprite.set("jump"); setTimeout(() => me.sprite.set("idle"), 200); // nod
-      await say(CONFIG.GUIDE_NAME, VO[n], { vo: n, talker: max });
+      await say(CONFIG.GUIDE_NAME, VOtext(n), { vo: n, talker: max });
     }
-    await say(CONFIG.GUIDE_NAME, VO[8], { vo: 8, talker: max, endPose: "celebrate", keepVoice: true });
+    await say(CONFIG.GUIDE_NAME, VOtext(8), { vo: 8, talker: max, endPose: "celebrate", keepVoice: true });
     walk(max, 50, 30).then(() => fadeActor(max, false));
     await sleep(300);
     await walk(me, 48, 30);
@@ -739,10 +829,10 @@
       e.stopPropagation();
       taps++;
       Sound.sfx("blip");
-      if (taps === 5) { bubble(max, "Hey! That tickles!", CONFIG.GUIDE_NAME); }
-      if (taps === 8) { bubble(max, "Okay, stop poking me.", CONFIG.GUIDE_NAME); }
+      if (taps === 5) { bubble(max, t("lines.tickles"), CONFIG.GUIDE_NAME); }
+      if (taps === 8) { bubble(max, t("lines.stopPoking"), CONFIG.GUIDE_NAME); }
       if (taps === 11) {
-        bubble(max, "Fine. Here's my dance. ♪", CONFIG.GUIDE_NAME);
+        bubble(max, t("lines.dance"), CONFIG.GUIDE_NAME);
         max.sprite.set("celebrate");
         setTimeout(() => max.sprite.set("idle"), 2400);
         taps = 0;
@@ -765,9 +855,9 @@
     let target = null;
     HUB.forEach((id, i) => {
       const room = ROOMS.find((r) => r.id === id);
-      const d = el("button", "door", '<span class="plaque">' + room.icon + '</span><span class="lbl">' + esc(room.name.toUpperCase()) + '</span><span class="knob"></span>');
+      const d = el("button", "door", '<span class="plaque">' + room.icon + '</span><span class="lbl">' + esc(roomName(id).toUpperCase()) + '</span><span class="knob"></span>');
       d.style.left = (4 + i * 24.5) + "%";
-      d.setAttribute("aria-label", room.name);
+      d.setAttribute("aria-label", roomName(id));
       if (state.done.has(room.name)) d.classList.add("done");
       if (id === nextId) { d.classList.add("glow"); target = d; } else d.disabled = true;
       scenery.append(d);
@@ -781,9 +871,9 @@
     scenery.append(arrow);
     let tapped = false;
     const doorTap = new Promise((r) => (target.onclick = () => { tapped = true; r(); }));
-    if (vo) await Promise.race([say(CONFIG.GUIDE_NAME, VO[vo], { vo, talker: max, keepVoice: true }), doorTap]);
+    if (vo) await Promise.race([say(CONFIG.GUIDE_NAME, VOtext(vo), { vo, talker: max, keepVoice: true }), doorTap]);
     if (!tapped) {
-      setPanel(el("div", "box", '<span class="speaker">' + esc(CONFIG.GUIDE_NAME) + '</span><div class="dialogue-text">Tap the glowing door ▲</div>'));
+      setPanel(el("div", "box", '<span class="speaker">' + esc(CONFIG.GUIDE_NAME) + '</span><div class="dialogue-text">' + esc(t("ui.tapDoor")) + "</div>"));
       await doorTap;
     }
     Sound.stopVoice();
@@ -806,7 +896,7 @@
       if (room.scene === "careers") {
         const p = el("div");
         p.style.cssText = "position:absolute;right:6%;top:8%;background:#f6c343;font-family:'Press Start 2P';font-size:9px;padding:6px;box-shadow:0 0 0 3px #000";
-        p.textContent = "CAREERS 💼";
+        p.textContent = t("ui.careersSign");
         scenery.append(p);
       }
       if (room.id === "lecture") {
@@ -820,13 +910,14 @@
     const me = addActor(state.look, { x: -8 });
     const max = addActor(MAX_LOOK, { x: -16, name: CONFIG.GUIDE_NAME });
     maxActor = max; hookMaxEasterEgg(max);
-    npc = addActor(Pixel.NPC_LOOKS[room.npc.look], { x: 80, flip: true, name: room.npc.name });
+    const npcName = t("npcs." + room.npc.look);
+    npc = addActor(Pixel.NPC_LOOKS[room.npc.look], { x: 80, flip: true, name: npcName });
     walk(max, 12, 30);
     await walk(me, 30, 30);
-    if (room.id === "lecture") bubble(max, "Shh, don't wake him. Week 7 is hard.", CONFIG.GUIDE_NAME, 2400);
-    await say(room.npc.name, fill(room.greet), { talker: npc });
-    await askAll(room.questions, room.npc.name, npc);
-    await roomCleared(room.name);
+    if (room.id === "lecture") bubble(max, t("lines.sleepy"), CONFIG.GUIDE_NAME, 2400);
+    await say(npcName, fill(t("greets." + room.id)), { talker: npc });
+    await askAll(room.questions, npcName, npc);
+    await roomCleared(roomName(room.id));
     state.done.add(room.name);
     Saver.save(room.name);
   }
@@ -849,25 +940,26 @@
     const me = addActor(state.look, { x: -8, bottom: "3%" });
     const max = addActor(MAX_LOOK, { x: -16, bottom: "3%", name: CONFIG.GUIDE_NAME });
     maxActor = max; hookMaxEasterEgg(max);
-    const prof = addActor(Pixel.NPC_LOOKS.professor, { x: 88, bottom: "3%", flip: true, name: "Professor" });
+    const profName = t("npcs.professor");
+    const prof = addActor(Pixel.NPC_LOOKS.professor, { x: 88, bottom: "3%", flip: true, name: profName });
     walk(max, 8, 30);
     await walk(me, 22, 30);
-    await say("Professor", fill(room.greet), { talker: prof });
-    bubble(max, room.maxQuip, CONFIG.GUIDE_NAME, 3200);
+    await say(profName, fill(t("greets.corridor")), { talker: prof });
+    bubble(max, t("lines.corridorQuip"), CONFIG.GUIDE_NAME, 3200);
     for (let i = 0; i < room.doors.length; i++) {
       const d = room.doors[i], b = doors[i];
       b.disabled = false; b.classList.add("glow");
       const title = fill(d.title);
-      setPanel(el("div", "box", '<span class="speaker">Professor</span><div class="dialogue-text">Door ' + (i + 1) + ' of 4: <b>' + esc(title) + '</b>. Tap the glowing door ▲</div>'));
+      setPanel(el("div", "box", '<span class="speaker">' + esc(profName) + '</span><div class="dialogue-text">' + t("ui.doorOf", { n: i + 1, title: esc(title) }) + "</div>"));
       await new Promise((r) => (b.onclick = r));
       Sound.sfx("door");
       b.classList.remove("glow"); b.disabled = true;
       await walk(me, parseFloat(b.style.left) + 9.5, 45);
-      await askAll(d.questions, "Professor · " + (d.short === "SPEC" ? title : d.short), prof);
+      await askAll(d.questions, profName + " · " + (d.short === "SPEC" ? title : d.short), prof);
       b.classList.add("done");
       Sound.sfx("coin");
     }
-    await roomCleared(room.name);
+    await roomCleared(roomName(room.id));
     state.done.add(room.name);
     Saver.save(room.name);
   }
@@ -882,20 +974,20 @@
     });
     const box = el("div");
     box.style.cssText = "position:absolute;left:12%;bottom:14%;width:22%;height:30%;background:#c0392b;box-shadow:0 0 0 4px #000, inset -6px -6px 0 #962d22;display:flex;align-items:flex-start;justify-content:center;font-family:'Press Start 2P';font-size:7px;color:#fff;padding-top:14px;text-align:center;line-height:1.5";
-    box.innerHTML = "SUGGESTION<br>BOX<div style='position:absolute;top:6px;left:25%;width:50%;height:4px;background:#000'></div>";
+    box.innerHTML = esc(t("ui.suggestionBox")) + "<div style='position:absolute;top:6px;left:25%;width:50%;height:4px;background:#000'></div>";
     box.style.animation = "glow 1s steps(2) infinite";
     const board = el("div");
     board.style.cssText = "position:absolute;right:6%;top:10%;width:40%;height:46%;background:#b88a57;box-shadow:0 0 0 4px #000, inset 0 0 0 5px #7d5a34;display:flex;flex-wrap:wrap;gap:4px;padding:10px;align-content:flex-start";
-    board.innerHTML = "<div style='width:100%;font-family:\"Press Start 2P\";font-size:7px;color:#fff;text-shadow:1px 1px 0 #000'>SHOUT-OUT WALL</div>";
+    board.innerHTML = "<div style='width:100%;font-family:var(--font-title);font-size:7px;color:#fff;text-shadow:1px 1px 0 #000'>" + esc(t("ui.shoutOutWall")) + "</div>";
     ["#fff59d", "#a5d6a7", "#90caf9", "#f8bbd0"].forEach((c) => { const n = el("i"); n.style.cssText = "width:18px;height:16px;background:" + c + ";box-shadow:0 0 0 2px #000"; board.append(n); });
     scenery.append(box, board);
     const me = addActor(state.look, { x: 50, bottom: "3%" });
     const max = addActor(MAX_LOOK, { x: 66, bottom: "3%", name: CONFIG.GUIDE_NAME, flip: true });
     maxActor = max; hookMaxEasterEgg(max);
-    await say(CONFIG.GUIDE_NAME, VO[13], { vo: 13, talker: max });
+    await say(CONFIG.GUIDE_NAME, VOtext(13), { vo: 13, talker: max });
 
     const q1 = { id: "raise_programme", type: "text", text: "Is there anything you would like us to raise with the programme team?" };
-    const v1 = await ask(q1, "SUGGESTION BOX");
+    const v1 = await ask(q1, t("ui.suggestionBox"));
     if (v1) {
       state.answers.raise_programme = v1;
       await walk(me, 30, 40);
@@ -905,9 +997,9 @@
       await sleep(550); note.remove(); Sound.sfx("clonk"); await sleep(200); Sound.sfx("ding");
     }
     max.sprite.set("talk");
-    bubble(max, "Now say something nice. I'm sensitive.", CONFIG.GUIDE_NAME, 3000);
+    bubble(max, t("lines.sayNice"), CONFIG.GUIDE_NAME, 3000);
     const q2 = { id: "positive_feedback", type: "text", text: "Drop some positive feedback! What's been great about WBS so far?" };
-    const v2 = await ask(q2, "SHOUT-OUT WALL");
+    const v2 = await ask(q2, t("ui.shoutOutWall"));
     max.sprite.set("idle");
     if (v2) {
       state.answers.positive_feedback = v2;
@@ -946,10 +1038,12 @@
     for (let x = 24; x < 696; x += 24) { g.fillRect(x, 24, 12, 8); g.fillRect(x + 12, 448, 12, 8); }
     g.textAlign = "center";
     g.fillStyle = "#14183a";
-    g.font = "22px 'Press Start 2P', monospace";
-    g.fillText("CERTIFICATE", 360, 92);
-    g.font = "13px 'Press Start 2P', monospace";
-    g.fillText("OF AWESOME FEEDBACK", 360, 122);
+    const FT = getComputedStyle(document.documentElement).getPropertyValue("--font-title").trim() || "monospace";
+    const FB = getComputedStyle(document.documentElement).getPropertyValue("--font-body").trim() || "sans-serif";
+    g.font = "22px " + FT;
+    g.fillText(t("ui.certTitle"), 360, 92, 640);
+    g.font = "13px " + FT;
+    g.fillText(t("ui.certSub"), 360, 122, 640);
     // avatar
     const a = document.createElement("canvas"); a.width = 16; a.height = 24;
     Pixel.draw(a.getContext("2d"), state.look, "celebrate", 1);
@@ -957,14 +1051,14 @@
     const b = document.createElement("canvas"); drawBadge(b);
     g.drawImage(b, 572, 150, 104, 104);
     g.textAlign = "left";
-    g.fillStyle = "#3d55c4"; g.font = "16px 'Press Start 2P', monospace";
-    g.fillText("WBS FEEDBACK", 232, 205);
-    g.fillText("CHAMPION", 232, 235);
-    g.fillStyle = "#14183a"; g.font = "18px 'Pixelify Sans', sans-serif";
-    g.fillText("Survey complete · " + CONFIG.TERM_LABEL, 232, 275);
-    g.fillText("Thanks for making WBS better!", 232, 305);
-    g.textAlign = "center"; g.fillStyle = "#6b7088"; g.font = "18px 'Pixelify Sans', sans-serif";
-    g.fillText("Warwick Business School · Student Staff Liaison Committee", 360, 410);
+    g.fillStyle = "#3d55c4"; g.font = "16px " + FT;
+    g.fillText(t("ui.certChampion1"), 232, 205, 330);
+    g.fillText(t("ui.certChampion2"), 232, 235, 330);
+    g.fillStyle = "#14183a"; g.font = "18px " + FB;
+    g.fillText(t("ui.certComplete", { term: t("ui.term") }), 232, 275, 330);
+    g.fillText(t("ui.certThanks"), 232, 305, 330);
+    g.textAlign = "center"; g.fillStyle = "#6b7088"; g.font = "18px " + FB;
+    g.fillText(t("ui.certFooter"), 360, 410, 640);
     // stamp
     g.strokeStyle = "#e2574c"; g.lineWidth = 6; g.beginPath(); g.arc(624, 330, 34, 0, Math.PI * 2); g.stroke();
     g.fillStyle = "#e2574c"; g.font = "10px 'Press Start 2P', monospace"; g.fillText("SSLC", 624, 328); g.fillText("2026", 624, 344);
@@ -997,17 +1091,17 @@
     me.sprite.set("celebrate"); max.sprite.set("celebrate");
     const badge = document.createElement("canvas"); badge.className = "badge"; drawBadge(badge);
     const badgeBox = el("div", "center");
-    badgeBox.append(badge, el("h2", "title", "🏆 WBS FEEDBACK CHAMPION"));
-    await say(CONFIG.GUIDE_NAME, VO[14], { vo: 14, after: badgeBox, endPose: "celebrate" });
+    badgeBox.append(badge, el("h2", "title", esc(t("ui.championTitle"))));
+    await say(CONFIG.GUIDE_NAME, VOtext(14), { vo: 14, after: badgeBox, endPose: "celebrate" });
     me.sprite.set("idle");
-    await say(CONFIG.GUIDE_NAME, VO[15], { vo: 15, talker: max });
-    await say(CONFIG.GUIDE_NAME, VO[16], { vo: 16, talker: max, endPose: "wave", keepVoice: true });
+    await say(CONFIG.GUIDE_NAME, VOtext(15), { vo: 15, talker: max });
+    await say(CONFIG.GUIDE_NAME, VOtext(16), { vo: 16, talker: max, endPose: "wave", keepVoice: true });
 
     try { await document.fonts.ready; } catch (e) {}
     const cert = makeCertificate();
     const wrap = el("div", "cert-wrap");
     wrap.append(cert);
-    const save = el("button", "btn primary", "📸 SAVE MY BADGE");
+    const save = el("button", "btn primary", t("ui.saveBadge"));
     save.style.marginTop = "16px";
     save.onclick = () => {
       Sound.sfx("coin");
@@ -1016,8 +1110,8 @@
       a.href = cert.toDataURL("image/png");
       document.body.append(a); a.click(); a.remove();
     };
-    const bye = el("button", "btn ghost", "FINISH ♥");
-    setPanel(el("h2", "title", "YOUR CERTIFICATE"), wrap, save, bye);
+    const bye = el("button", "btn ghost", t("ui.finish"));
+    setPanel(el("h2", "title", esc(t("ui.yourCertificate"))), wrap, save, bye);
     await new Promise((r) => (bye.onclick = r));
     // goodbye: Max waves, camera pulls back to the building
     max.sprite.set("wave");
@@ -1026,9 +1120,9 @@
     Sound.sfx("door");
     app.classList.add("full");
     showHud(false);
-    const t = el("div", "title-screen");
-    t.innerHTML = '<h1>THANKS FOR<span>PLAYING ♥</span></h1><div class="sub">Your answers have been sent to the SSLC.</div><div class="tip" style="margin-top:auto">Share the link with your coursemates!</div>';
-    fx.append(t);
+    const ts = el("div", "title-screen");
+    ts.innerHTML = "<h1>" + t("ui.thanksFor") + "<span>" + t("ui.playing") + '</span></h1><div class="sub">' + t("ui.answersSent") + '</div><div class="tip" style="margin-top:auto">' + t("ui.shareLink") + "</div>";
+    fx.append(ts);
     Sound.music("title");
   }
 
@@ -1036,6 +1130,7 @@
   // MAIN FLOW
   // =================================================================
   async function main() {
+    await sceneLanguage();
     await sceneTitle();
     await sceneAnonymity();
     await sceneGender();
@@ -1059,7 +1154,7 @@
 
   // preload backgrounds, then go
   ["title", "road", "arrival", "lecture", "library", "cafe"].forEach((n) => { const i = new Image(); i.src = "assets/bg/" + n + ".png"; });
-  main().catch((e) => { console.error(e); setPanel(el("div", "box", "Oops, something went wrong. Please refresh the page.")); });
+  main().catch((e) => { console.error(e); setPanel(el("div", "box", esc(t("ui.error")))); });
 
   // test hooks (used by automated checks only)
   window.__wbs = { state, Saver };
