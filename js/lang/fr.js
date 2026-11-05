@@ -82,6 +82,7 @@
 
   // room names (shown on doors and banners) and characters
   rooms: {
+    modules: "Tes modules",
     lecture: "Amphithéâtre", corridor: "Couloir des modules", library: "Bibliothèque", cafe: "Café",
     careers: "Bureau des carrières", suggestion: "Boîte à idées", aboutYou: "À propos de toi",
   },
@@ -112,6 +113,8 @@
 
   // answer buttons: the English value is what gets saved; this is only what students see
   options: {
+    "My specialism module": "Mon module de spécialisation",
+    "None, they're all fine": "Aucun, tout va bien",
     "Yes": "Oui", "No": "Non", "Maybe": "Peut-être",
     "Male": "Homme", "Female": "Femme", "Non-binary": "Non binaire", "Prefer not to say": "Je préfère ne pas répondre",
     "Online": "En ligne", "In-person": "En présentiel", "Both work": "Les deux me vont",
@@ -123,6 +126,9 @@
 
   // questions, by id. Module and course names stay in English (official names).
   questions: {
+    module_overall: "Globalement, comment se passent tes modules principaux ? (enseignement, contenu et rythme)",
+    module_hardest: "Quel module a le plus besoin de soutien supplémentaire ?",
+    module_help: "Qu'est-ce qui t'aiderait le plus dans tes modules ? (ex. séances en plus, enregistrements, plus d'exemples)",
     assess_concern: "As-tu des inquiétudes concernant les consignes des devoirs, les examens ou les critères d'évaluation ?",
     assess_problems: "Quels problèmes rencontres-tu avec les évaluations, les examens, etc. ?",
     online_offline: "Recommanderais-tu des cours en ligne ou des cours en présentiel ?",

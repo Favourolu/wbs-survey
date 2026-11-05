@@ -15,24 +15,22 @@ var SHEET_NAME = 'Responses';
 // Written (free-text) answers. If the student played in another language,
 // an English translation is added in a "<name>_en" column next to it.
 var TEXT_ANSWERS = [
-  'assess_problems', 'raise_faculty', 'ffma_problems', 'qmb_problems', 'sap_support', 'spec_problems',
-  'study_spaces_why', 'timetable_changes', 'commute_why', 'su_rating_why', 'careers_rating_why',
+  'assess_problems', 'module_help', 'timetable_changes',
   'raise_programme', 'positive_feedback'
 ];
 
 var BASE_COLUMNS = [
   'session', 'status', 'updated', 'language', 'gender', 'course', 'course_code',
   // Lecture Theatre
-  'assess_concern', 'assess_problems', 'online_offline', 'online_pace', 'ffma_recording', 'raise_faculty',
-  // Module Corridor (MBM, MBOM, MINT, MBC only)
-  'ffma_balance', 'ffma_sessions', 'ffma_problems', 'qmb_pace', 'qmb_problems',
-  'sap_cases', 'sap_support', 'spec_pace', 'spec_problems',
+  'assess_concern', 'assess_problems', 'online_offline', 'online_pace',
+  // Modules (MBM, MBOM, MINT, MBC only)
+  'module_overall', 'module_hardest', 'module_help',
   // Library
-  'study_spaces', 'study_spaces_why', 'group_sessions',
+  'study_spaces', 'group_sessions',
   // Café
-  'timetable_concern', 'timetable_changes', 'commute_ok', 'commute_why', 'schedule_pref', 'su_rating', 'su_rating_why',
+  'timetable_concern', 'timetable_changes', 'commute_ok', 'schedule_pref', 'su_rating',
   // Careers Office
-  'careers_rating', 'careers_rating_why', 'pg_careers',
+  'careers_rating', 'pg_careers',
   // Suggestion Box & Shout-out Wall
   'raise_programme', 'positive_feedback'
 ];

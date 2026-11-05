@@ -83,6 +83,7 @@
 
   // room names (shown on doors and banners) and characters
   rooms: {
+    modules: "तुम्हारे modules",
     lecture: "लेक्चर थिएटर", corridor: "मॉड्यूल कॉरिडोर", library: "लाइब्रेरी", cafe: "कैफ़े",
     careers: "करियर ऑफ़िस", suggestion: "सुझाव पेटी", aboutYou: "तुम्हारे बारे में",
   },
@@ -113,6 +114,8 @@
 
   // answer buttons: the English value is what gets saved; this is only what students see
   options: {
+    "My specialism module": "मेरा specialism module",
+    "None, they're all fine": "कोई नहीं, सब ठीक हैं",
     "Yes": "हाँ", "No": "नहीं", "Maybe": "शायद",
     "Male": "पुरुष", "Female": "महिला", "Non-binary": "नॉन-बाइनरी", "Prefer not to say": "नहीं बताना चाहते",
     "Online": "ऑनलाइन", "In-person": "आमने-सामने (कैंपस में)", "Both work": "दोनों ठीक हैं",
@@ -124,6 +127,9 @@
 
   // questions, by id. Module and course names stay in English (official names).
   questions: {
+    module_overall: "कुल मिलाकर, तुम्हारे core modules कैसे चल रहे हैं? (पढ़ाई, कंटेंट और रफ़्तार)",
+    module_hardest: "किस module को सबसे ज़्यादा extra support चाहिए?",
+    module_help: "तुम्हारे modules में सबसे ज़्यादा किस चीज़ से मदद मिलेगी? (जैसे extra sessions, recordings, ज़्यादा examples)",
     assess_concern: "क्या तुम्हें assignment के निर्देशों, exams या assessment के मानदंडों (criteria) को लेकर कोई चिंता है?",
     assess_problems: "Assessments, exams वगैरह में तुम्हें क्या दिक्कतें आती हैं?",
     online_offline: "तुम ऑनलाइन क्लास का सुझाव दोगे या आमने-सामने (in-person) क्लास का?",

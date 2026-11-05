@@ -786,10 +786,6 @@
     }
     const walker = addActor(state.look, { x: -8 });
     await walk(walker, 108, 34);
-    // past the "WBS Main Entrance" signpost
-    await wipe(() => { clearStage(); setBg("assets/bg/signpost.png"); });
-    const walker2 = addActor(state.look, { x: -8, bottom: "4%" });
-    await walk(walker2, 108, 34);
 
     await wipe(() => {
       clearStage();
@@ -1072,8 +1068,8 @@
       setPanel();
     });
     const doors = room.doors.map((d, i) => {
-      const b = el("button", "door", '<span class="plaque">' + fill(d.icon) + '</span><span class="lbl">' + esc(d.short === "SPEC" ? fill(d.title).toUpperCase() : d.short) + '</span><span class="knob"></span>');
-      b.style.left = (4 + i * 24.5) + "%";
+      const b = el("button", "door", '<span class="plaque">' + fill(d.icon) + '</span><span class="lbl">' + esc(d.short === "MODULES" ? t("rooms.modules").toUpperCase() : d.short === "SPEC" ? fill(d.title).toUpperCase() : d.short) + '</span><span class="knob"></span>');
+      b.style.left = (room.doors.length === 1 ? 38 : 4 + i * 24.5) + "%"; if (room.doors.length === 1) b.style.width = "24%";
       b.style.height = "40%"; b.style.bottom = "34%";
       b.disabled = true;
       scenery.append(b);
@@ -1092,12 +1088,12 @@
       const d = room.doors[i], b = doors[i];
       b.disabled = false; b.classList.add("glow");
       const title = fill(d.title);
-      setPanel(el("div", "box", '<span class="speaker">' + esc(profName) + '</span><div class="dialogue-text">' + t("ui.doorOf", { n: i + 1, title: esc(title) }) + "</div>"));
+      setPanel(el("div", "box", '<span class="speaker">' + esc(profName) + '</span><div class="dialogue-text">' + (room.doors.length === 1 ? esc(t("ui.tapDoor")) : t("ui.doorOf", { n: i + 1, title: esc(title) })) + "</div>"));
       await new Promise((r) => (b.onclick = r));
       Sound.sfx("door");
       b.classList.remove("glow"); b.disabled = true;
       await walk(me, parseFloat(b.style.left) + 9.5, 45);
-      await askAll(d.questions, profName + " · " + (d.short === "SPEC" ? title : d.short), prof);
+      await askAll(d.questions, profName + " · " + (d.short === "MODULES" ? t("rooms.modules") : d.short === "SPEC" ? title : d.short), prof);
       b.classList.add("done");
       Sound.sfx("coin");
     }
@@ -1293,7 +1289,7 @@
       await sceneRoom(room);
       if (id === "lecture") {
         const corridor = ROOMS.find((r) => r.id === "corridor");
-        if (corridor.showIf(state.answers, state)) { await sceneCardTap("pgoffice"); await sceneCorridor(corridor); }
+        if (corridor.showIf(state.answers, state)) await sceneCorridor(corridor);
       }
     }
     await sceneSuggestions();

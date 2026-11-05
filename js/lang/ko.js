@@ -81,6 +81,7 @@
 
   // room names (shown on doors and banners) and characters
   rooms: {
+    modules: "내 모듈",
     lecture: "강의실", corridor: "모듈 복도", library: "도서관", cafe: "카페",
     careers: "커리어 오피스", suggestion: "건의함", aboutYou: "나에 대해",
   },
@@ -111,6 +112,8 @@
 
   // answer buttons: the English value is what gets saved; this is only what students see
   options: {
+    "My specialism module": "내 전공 모듈",
+    "None, they're all fine": "없어요, 다 괜찮아요",
     "Yes": "예", "No": "아니요", "Maybe": "아마도",
     "Male": "남성", "Female": "여성", "Non-binary": "논바이너리", "Prefer not to say": "응답하지 않음",
     "Online": "온라인", "In-person": "대면", "Both work": "둘 다 괜찮음",
@@ -122,6 +125,9 @@
 
   // questions, by id. Module and course names stay in English (official names).
   questions: {
+    module_overall: "전반적으로 핵심 모듈은 어떻게 진행되고 있나요? (강의, 내용, 속도)",
+    module_hardest: "어떤 모듈에 추가 지원이 가장 필요한가요?",
+    module_help: "모듈 공부에 가장 도움이 될 것은 무엇인가요? (예: 추가 세션, 녹화본, 더 많은 예제)",
     assess_concern: "과제 안내, 시험 또는 평가 기준에 대해 우려되는 점이 있나요?",
     assess_problems: "과제, 시험 등 평가와 관련해 어떤 문제가 있나요?",
     online_offline: "온라인 수업과 대면 수업 중 어느 쪽을 추천하나요?",

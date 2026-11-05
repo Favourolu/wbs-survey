@@ -81,6 +81,7 @@
 
   // room names (shown on doors and banners) and characters
   rooms: {
+    modules: "你的模块",
     lecture: "阶梯教室", corridor: "课程走廊", library: "图书馆", cafe: "咖啡厅",
     careers: "职业发展中心", suggestion: "意见箱", aboutYou: "关于你",
   },
@@ -111,6 +112,8 @@
 
   // answer buttons: the English value is what gets saved; this is only what students see
   options: {
+    "My specialism module": "我的专业方向模块",
+    "None, they're all fine": "都没有，都挺好的",
     "Yes": "是", "No": "否", "Maybe": "也许",
     "Male": "男", "Female": "女", "Non-binary": "非二元性别", "Prefer not to say": "不愿透露",
     "Online": "线上", "In-person": "线下", "Both work": "都可以",
@@ -122,6 +125,9 @@
 
   // questions, by id. Module and course names stay in English (official names).
   questions: {
+    module_overall: "总体来说，你的核心模块进展如何？（教学、内容和节奏）",
+    module_hardest: "哪个模块最需要额外支持？",
+    module_help: "什么对你的模块学习帮助最大？（例如额外辅导课、录像、更多例题）",
     assess_concern: "你对作业要求、考试或评分标准有什么顾虑吗？",
     assess_problems: "你在作业、考试等考核方面遇到了哪些问题？",
     online_offline: "你更建议线上授课还是线下授课？",

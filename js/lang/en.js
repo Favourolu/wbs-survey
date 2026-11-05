@@ -84,6 +84,7 @@
 
   // room names (shown on doors and banners) and characters
   rooms: {
+    modules: "Your modules",
     lecture: "Lecture Theatre", corridor: "Module Corridor", library: "Library", cafe: "Café",
     careers: "Careers Office", suggestion: "Suggestion Box", aboutYou: "About you",
   },
@@ -114,6 +115,8 @@
 
   // answer buttons: the English value is what gets saved; this is only what students see
   options: {
+    "My specialism module": "My specialism module",
+    "None, they're all fine": "None, they're all fine",
     "Yes": "Yes", "No": "No", "Maybe": "Maybe",
     "Male": "Male", "Female": "Female", "Non-binary": "Non-binary", "Prefer not to say": "Prefer not to say",
     "Online": "Online", "In-person": "In-person", "Both work": "Both work",
@@ -125,6 +128,9 @@
 
   // questions, by id. Module and course names stay in English (official names).
   questions: {
+    module_overall: "Overall, how are your core modules going? (teaching, content and pace)",
+    module_hardest: "Which module needs the most extra support?",
+    module_help: "What would help you most with your modules? (e.g. extra sessions, recordings, more examples)",
     assess_concern: "Do you have any concerns about assignment instructions, exams, or assessment criteria?",
     assess_problems: "What problems do you have with assessments, exams and more?",
     online_offline: "Would you suggest online classes or in-person classes?",

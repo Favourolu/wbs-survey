@@ -83,6 +83,7 @@
 
   // room names (shown on doors and banners) and characters
   rooms: {
+    modules: "Modulmu",
     lecture: "Ruang Kuliah", corridor: "Koridor Modul", library: "Perpustakaan", cafe: "Kafe",
     careers: "Kantor Karier", suggestion: "Kotak Saran", aboutYou: "Tentang kamu",
   },
@@ -113,6 +114,8 @@
 
   // answer buttons: the English value is what gets saved; this is only what students see
   options: {
+    "My specialism module": "Modul spesialisasiku",
+    "None, they're all fine": "Tidak ada, semuanya oke",
     "Yes": "Ya", "No": "Tidak", "Maybe": "Mungkin",
     "Male": "Laki-laki", "Female": "Perempuan", "Non-binary": "Non-biner", "Prefer not to say": "Memilih tidak menjawab",
     "Online": "Online", "In-person": "Tatap muka", "Both work": "Dua-duanya oke",
@@ -124,6 +127,9 @@
 
   // questions, by id. Module and course names stay in English (official names).
   questions: {
+    module_overall: "Secara keseluruhan, bagaimana modul intimu berjalan? (pengajaran, materi, dan tempo)",
+    module_hardest: "Modul mana yang paling butuh dukungan tambahan?",
+    module_help: "Apa yang paling membantu untuk modul-modulmu? (mis. sesi tambahan, rekaman, lebih banyak contoh)",
     assess_concern: "Apakah kamu punya kekhawatiran soal instruksi tugas, ujian, atau kriteria penilaian?",
     assess_problems: "Masalah apa yang kamu alami dengan penilaian, ujian, dan lainnya?",
     online_offline: "Kamu lebih menyarankan kelas online atau kelas tatap muka?",

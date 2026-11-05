@@ -81,6 +81,7 @@
 
   // room names (shown on doors and banners) and characters
   rooms: {
+    modules: "あなたのモジュール",
     lecture: "講義室", corridor: "モジュール廊下", library: "図書館", cafe: "カフェ",
     careers: "キャリアオフィス", suggestion: "目安箱", aboutYou: "きみについて",
   },
@@ -111,6 +112,8 @@
 
   // answer buttons: the English value is what gets saved; this is only what students see
   options: {
+    "My specialism module": "自分の専門モジュール",
+    "None, they're all fine": "特になし、どれも大丈夫",
     "Yes": "はい", "No": "いいえ", "Maybe": "たぶん",
     "Male": "男性", "Female": "女性", "Non-binary": "ノンバイナリー", "Prefer not to say": "回答しない",
     "Online": "オンライン", "In-person": "対面", "Both work": "どちらでもよい",
@@ -122,6 +125,9 @@
 
   // questions, by id. Module and course names stay in English (official names).
   questions: {
+    module_overall: "全体として、コアモジュールの調子はどうですか？（授業・内容・ペース）",
+    module_hardest: "いちばん追加サポートが必要なモジュールはどれですか？",
+    module_help: "モジュールでいちばん助けになるものは何ですか？（例：追加セッション、録画、例題を増やす）",
     assess_concern: "課題の指示、試験、評価基準について何か懸念はありますか？",
     assess_problems: "課題や試験などの評価に関して、どのような問題がありますか？",
     online_offline: "オンライン授業と対面授業、どちらをおすすめしますか？",

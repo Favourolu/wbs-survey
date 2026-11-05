@@ -83,6 +83,7 @@
 
   // room names (shown on doors and banners) and characters
   rooms: {
+    modules: "موادك",
     lecture: "قاعة المحاضرات", corridor: "ممر المواد", library: "المكتبة", cafe: "المقهى",
     careers: "مكتب التوظيف", suggestion: "صندوق الاقتراحات", aboutYou: "عنك",
   },
@@ -113,6 +114,8 @@
 
   // answer buttons: the English value is what gets saved; this is only what students see
   options: {
+    "My specialism module": "مادة تخصصي",
+    "None, they're all fine": "لا شيء، كلها جيدة",
     "Yes": "نعم", "No": "لا", "Maybe": "ربما",
     "Male": "ذكر", "Female": "أنثى", "Non-binary": "غير ثنائي", "Prefer not to say": "أفضّل عدم الإجابة",
     "Online": "عبر الإنترنت", "In-person": "حضورياً", "Both work": "كلاهما مناسب",
@@ -124,6 +127,9 @@
 
   // questions, by id. Module and course names stay in English (official names).
   questions: {
+    module_overall: "بشكل عام، كيف تسير موادك الأساسية؟ (التدريس والمحتوى والوتيرة)",
+    module_hardest: "أي مادة تحتاج إلى أكبر قدر من الدعم الإضافي؟",
+    module_help: "ما الذي سيساعدك أكثر في موادك؟ (مثل جلسات إضافية، تسجيلات، أمثلة أكثر)",
     assess_concern: "هل لديك أي مخاوف بشأن تعليمات الواجبات أو الامتحانات أو معايير التقييم؟",
     assess_problems: "ما المشكلات التي تواجهها مع التقييمات والامتحانات وغيرها؟",
     online_offline: "هل تقترح أن تكون الحصص عبر الإنترنت أم حضورياً؟",

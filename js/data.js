@@ -109,11 +109,6 @@ window.ROOMS = [
       { id: "online_pace", type: "yesno",
         text: "Is the pace of teaching appropriate for online learning?",
         showIf: (a) => a.online_offline === "Online" || a.online_offline === "Both work" },
-      { id: "ffma_recording", type: "yesno",
-        text: "Do you want workshop recordings of Foundations of Financial and Management Accounting?",
-        showIf: inModuleCourse },
-      { id: "raise_faculty", type: "text",
-        text: "Do you have any concerns or suggestions you would like us to raise with the faculty?" },
     ],
   },
   {
@@ -123,26 +118,16 @@ window.ROOMS = [
     maxQuip: "He says 'quick'. He also said the lecture would finish on time.",
     showIf: inModuleCourse,
     doors: [
-      { title: "Foundations of Financial and Management Accounting", short: "FFMA", icon: "🧮", questions: [
-        { id: "ffma_balance", type: "choice", options: ["Yes", "No", "Maybe"],
-          text: "Do you feel the balance between theoretical explanations and numerical/practical examples is appropriate?" },
-        { id: "ffma_sessions", type: "choice", options: ["Yes", "No", "Maybe"],
-          text: "Would you find extra problem-solving or doubt-clearing sessions useful for this module?" },
-        { id: "ffma_problems", type: "text", text: "What problems do you face in this module? (content, pace, etc.)" },
-      ]},
-      { title: "Quantitative Methods for Business", short: "QMB", icon: "📊", questions: [
-        { id: "qmb_pace", type: "choice", options: ["Too fast", "Too slow", "Fine"],
-          text: "Is the pace of teaching appropriate when explaining calculations and methods?" },
-        { id: "qmb_problems", type: "text", text: "What problems do you face in this module? (content, pace, etc.)" },
-      ]},
-      { title: "Strategy Analysis and Practice", short: "SAP", icon: "♟️", questions: [
-        { id: "sap_cases", type: "choice", options: ["Yes", "No", "Maybe"],
-          text: "Do you find the case studies and practical examples useful for understanding the content?" },
-        { id: "sap_support", type: "text", text: "What additional support or activities would improve your learning?" },
-      ]},
-      { title: "{specialism}", short: "SPEC", icon: "{specIcon}", questions: [
-        { id: "spec_pace", type: "yesno", text: "Is the pace of teaching appropriate in {specialism}?" },
-        { id: "spec_problems", type: "text", text: "What problems do you face in {specialism}? (content, pace, etc.)" },
+      { title: "Your modules", short: "MODULES", icon: "📘", questions: [
+        { id: "module_overall", type: "hearts",
+          text: "Overall, how are your core modules going? (teaching, content and pace)" },
+        { id: "module_hardest", type: "choice",
+          text: "Which module needs the most extra support?",
+          options: ["Foundations of Financial and Management Accounting", "Quantitative Methods for Business",
+                    "Strategy Analysis and Practice", "My specialism module", "None, they're all fine"] },
+        { id: "module_help", type: "text",
+          text: "What would help you most with your modules? (e.g. extra sessions, recordings, more examples)",
+          showIf: (a) => (a.module_overall != null && a.module_overall <= 6) || (a.module_hardest && a.module_hardest !== "None, they're all fine") },
       ]},
     ],
   },
@@ -153,7 +138,6 @@ window.ROOMS = [
     questions: [
       { id: "study_spaces", type: "hearts",
         text: "Thinking about Warwick's study spaces (Main Library, the Grid, departmental spaces), how would you rate them?" },
-      lowRating("study_spaces", "study spaces"),
       { id: "group_sessions", type: "yesno",
         text: "Should we include group study sessions and doubt-clearing sessions in our timetable?" },
     ],
@@ -170,9 +154,6 @@ window.ROOMS = [
         showIf: (a) => a.timetable_concern === "Yes" },
       { id: "commute_ok", type: "yesno",
         text: "Are you comfortable with the commuting time between the morning class and the workshop?" },
-      { id: "commute_why", type: "text",
-        text: "What's the problem: distance, time between sessions, or something else?",
-        showIf: (a) => a.commute_ok === "No" },
       { id: "schedule_pref", type: "choice",
         text: "How would you prefer classes to be scheduled throughout the week?",
         options: [
@@ -182,7 +163,6 @@ window.ROOMS = [
         ] },
       { id: "su_rating", type: "hearts",
         text: "Rate your experience with Warwick SU societies, sports clubs, volunteering and the Warwick Award." },
-      lowRating("su_rating", "SU activities"),
     ],
   },
   {
@@ -192,7 +172,6 @@ window.ROOMS = [
     questions: [
       { id: "careers_rating", type: "hearts",
         text: "How would you rate Warwick Careers Services? (1 = Very poor, 10 = Excellent)" },
-      lowRating("careers_rating", "Careers Services"),
       { id: "pg_careers", type: "yesno",
         text: "Do we need more career services specific to PG students and job support?" },
     ],
