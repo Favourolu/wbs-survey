@@ -423,6 +423,17 @@ Answering "No" or giving a good rating simply skips the follow-up, so happy stud
 
 ---
 
+## How answers are collected
+
+- **Where:** an SSLC-owned Google Sheet, through a small Google Apps Script web app. **One row per student, one column per question.** Questions a student never saw are left blank.
+- **When:** answers are saved **after each room** (Scene 3/3B "About you", Lecture Theatre, Module Corridor, Library, Café, Careers Office, Suggestion Box). If a student quits halfway, the rooms they finished are kept.
+- **One row, not many:** when the game starts it creates a random code (e.g. `k3f9x2`), which isn't linked to the student in any way. Each room save uses that code, so the game **updates the same row** instead of adding a new one each time.
+- **Status column:** each row shows how far the student got (e.g. `Careers Office` or `Completed`), so the SSLC can see completion rates and where people drop off.
+- **Anonymous:** no login, no email, no name, no IP address, no device information. Only the answers, the random code and a timestamp. The avatar is not saved.
+- **No signal:** if a save fails (e.g. weak Wi-Fi), the game quietly retries in the background without interrupting the student.
+
+---
+
 ## Full sequence at a glance
 
 ```
@@ -506,4 +517,4 @@ Share your badge and get your coursemates to play too. See you around!
 4. **Course list:** 20 MSc courses received. Is the list complete, and is the subject grouping OK? Extra "About you" questions (home/international)?
 5. **Voiceover:** a real SSLC member recording, or a generated voice?
 6. **Prize/incentive:** needed? If so, it must be a separate link so it stays anonymous.
-7. **Where results go:** a Google Sheet (simplest) or a database.
+7. **Where results go:** ✅ a Google Sheet, saved after each room. Which Google account should own it (ideally a shared SSLC account)?
