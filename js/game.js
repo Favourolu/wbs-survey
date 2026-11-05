@@ -588,6 +588,7 @@
     const code = await picked;
     Sound.init();
     Sound.sfx("select");
+    Sound.music("title");
     applyLanguage(code);
     app.classList.remove("picker");
     bgEl.style.filter = "";
@@ -844,6 +845,7 @@
   // ---------- the foyer hub ----------
   const HUB = ["lecture", "library", "cafe", "careers"];
   async function sceneFoyer(nextId, vo) {
+    Sound.music("explore");
     await wipe(() => {
       clearStage();
       app.classList.remove("full");
@@ -1022,7 +1024,9 @@
   }
 
   // ---------- a room ----------
+  const ROOM_SONGS = { lecture: "explore", library: "calm", cafe: "calm", careers: "upbeat" };
   async function sceneRoom(room) {
+    Sound.music(ROOM_SONGS[room.id] || "explore");
     let npc;
     await wipe(() => {
       clearStage();
@@ -1104,6 +1108,7 @@
 
   // ---------- suggestion box + shout-out wall ----------
   async function sceneSuggestions() {
+    Sound.music("calm");
     await wipe(() => {
       clearStage();
       setBg("assets/bg/lounge.png");
@@ -1216,6 +1221,7 @@
     });
     Sound.music(null);
     Sound.sfx("fanfare");
+    setTimeout(() => Sound.music("upbeat"), 2400);
     const colors = ["#f6c343", "#e2574c", "#3d55c4", "#3fbf6f", "#ec8fa6", "#fff"];
     for (let i = 0; i < 60; i++) {
       const c = el("div", "confetti");

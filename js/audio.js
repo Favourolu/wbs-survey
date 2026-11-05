@@ -6,14 +6,24 @@
   let ctx = null, master = null, musicGain = null, sfxGain = null;
   let musicOn = true, voiceOn = true;
   let musicTimer = null, currentSong = null;
+  const MUSIC_VOL = 0.34, MUSIC_DUCKED = 0.12;
+  function duck(on) {
+    if (!ctx || !musicGain) return;
+    const t = ctx.currentTime;
+    musicGain.gain.cancelScheduledValues(t);
+    musicGain.gain.setValueAtTime(musicGain.gain.value, t);
+    musicGain.gain.linearRampToValueAtTime(on ? MUSIC_DUCKED : MUSIC_VOL, t + 0.25);
+  }
 
   function init() {
     if (ctx) { if (ctx.state === "suspended") ctx.resume(); return; }
     const AC = window.AudioContext || window.webkitAudioContext;
     if (!AC) return;
+    // iPhone: keep playing even when the silent switch is on (Safari 17+)
+    try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch (e) {}
     ctx = new AC();
     master = ctx.createGain(); master.gain.value = 0.6; master.connect(ctx.destination);
-    musicGain = ctx.createGain(); musicGain.gain.value = 0.18; musicGain.connect(master);
+    musicGain = ctx.createGain(); musicGain.gain.value = MUSIC_VOL; musicGain.connect(master);
     sfxGain = ctx.createGain(); sfxGain.gain.value = 0.5; sfxGain.connect(master);
   }
 
@@ -71,10 +81,15 @@
   const SONGS = {
     title: { bpm: 112, lead: [76, 0, 79, 0, 81, 79, 76, 0, 74, 0, 76, 0, 72, 0, 0, 0, 76, 0, 79, 0, 84, 83, 81, 0, 79, 0, 81, 79, 76, 0, 0, 0],
       bass: [48, 0, 48, 0, 55, 0, 55, 0, 53, 0, 53, 0, 55, 0, 55, 0, 48, 0, 48, 0, 57, 0, 57, 0, 53, 0, 55, 0, 48, 0, 0, 0] },
+    calm: { bpm: 84, lead: [76, 0, 0, 79, 0, 0, 74, 0, 72, 0, 0, 0, 69, 0, 71, 0, 72, 0, 0, 76, 0, 0, 79, 0, 77, 0, 76, 0, 74, 0, 0, 0],
+      bass: [45, 0, 0, 0, 52, 0, 0, 0, 41, 0, 0, 0, 48, 0, 0, 0, 43, 0, 0, 0, 50, 0, 0, 0, 45, 0, 0, 0, 52, 0, 0, 0] },
+    upbeat: { bpm: 128, lead: [72, 74, 76, 0, 79, 0, 76, 0, 77, 76, 74, 0, 72, 0, 0, 0, 74, 76, 77, 0, 81, 0, 79, 0, 77, 76, 74, 0, 76, 0, 0, 0],
+      bass: [48, 0, 48, 55, 48, 0, 48, 55, 53, 0, 53, 60, 53, 0, 53, 60, 50, 0, 50, 57, 50, 0, 50, 57, 55, 0, 55, 62, 55, 0, 55, 0] },
     explore: { bpm: 100, lead: [72, 0, 76, 79, 0, 76, 74, 0, 72, 0, 69, 0, 71, 0, 0, 0, 72, 0, 76, 79, 0, 81, 79, 0, 77, 0, 76, 0, 74, 0, 0, 0],
       bass: [48, 0, 55, 0, 48, 0, 55, 0, 45, 0, 52, 0, 43, 0, 50, 0, 41, 0, 48, 0, 41, 0, 48, 0, 43, 0, 50, 0, 43, 0, 50, 0] },
   };
   function playMusic(name) {
+    if (name && name === currentSong && musicTimer) return;
     currentSong = name;
     stopMusicLoop();
     if (!ctx || !musicOn || !name) return;
@@ -115,6 +130,7 @@
   }
   function stopVoice() {
     voToken++;
+    duck(false);
     if (voAudio) { voAudio.pause(); voAudio = null; }
     if ("speechSynthesis" in window) speechSynthesis.cancel();
   }
@@ -124,6 +140,10 @@
   function speak(num) {
     stopVoice();
     if (!voiceOn || !num) return Promise.resolve();
+    duck(true);
+    return speakInner(num).then((v) => { duck(false); return v; });
+  }
+  function speakInner(num) {
     const token = voToken;
     const key = lang.code + num;
     const tts = () => new Promise((res) => {
