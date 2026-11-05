@@ -342,3 +342,25 @@ html[dir="rtl"] .course-btn .code { float: left; }
 #app.picker .title-screen { padding-top: 6%; }
 #app.picker .title-screen h1 { font-size: 34px !important; }
 html.nonlatin .box { padding-top: 22px; }
+
+/* ---------------- STUDENT CARD TAP ---------------- */
+.card-head { position: absolute; left: 12px; right: 12px; top: 12px; background: var(--paper); padding: 10px 12px; box-shadow: 0 0 0 4px #000; text-align: center; font-size: 17px; }
+.card-head b { display: block; font-family: var(--font-title); font-size: 13px; color: var(--blue); margin-bottom: 6px; }
+.reader-ring { position: absolute; width: 74px; height: 74px; margin: -37px 0 0 -37px; border: 4px dashed var(--gold); border-radius: 50%; animation: pulse 1s steps(3) infinite; }
+.reader-ring.near { border-style: solid; border-color: #fff; }
+.reader-ring.ok { border: 6px solid var(--green); box-shadow: 0 0 24px var(--green); animation: none; }
+@keyframes pulse { 50% { transform: scale(1.18); opacity: .6; } }
+.screen-glow { position: absolute; width: 70px; margin-left: -35px; margin-top: -40px; padding: 26px 2px; text-align: center; font-family: var(--font-title); font-size: 7px; color: #fff; background: #1f9a4a; box-shadow: 0 0 0 3px #000, 0 -8px 0 0 #6dff8f; opacity: 0; }
+.screen-glow.on { opacity: 1; animation: pop .25s steps(3); }
+.idcard { position: absolute; left: 0; top: 0; width: 110px; height: 72px; z-index: 30; touch-action: none; cursor: grab; background: #fff; box-shadow: 0 0 0 3px #000, 6px 6px 0 rgba(0,0,0,.35); }
+.idcard:active { cursor: grabbing; }
+.idcard .lanyard { position: absolute; left: 47px; top: -60px; width: 16px; height: 60px; background: repeating-linear-gradient(#2f6fd6 0 6px, #2a62bf 6px 8px); box-shadow: 0 0 0 2px #000; }
+.idcard .card-top { height: 16px; background: #1f2f6b; color: #fff; font-family: Georgia, serif; font-size: 12px; padding-left: 6px; line-height: 16px; }
+.idcard .card-body { display: flex; gap: 6px; padding: 5px 6px; align-items: center; }
+.idcard canvas { width: 32px; height: 24px; image-rendering: pixelated; box-shadow: 0 0 0 2px #000; background: #cfe3ff; }
+.idcard .card-text b { display: block; font-family: var(--font-title); font-size: 7px; margin-bottom: 4px; }
+.idcard .card-text i { display: block; height: 3px; width: 56px; background: #c9c9d6; margin-bottom: 3px; }
+.idcard .card-strip { position: absolute; left: 0; right: 0; bottom: 6px; height: 6px; background: repeating-linear-gradient(90deg, #000 0 2px, #fff 2px 4px, #000 4px 5px, #fff 5px 8px); }
+.card-auto { position: absolute; left: 50%; bottom: 14px; width: auto; transform: translateX(-50%); z-index: 29; font-size: 15px; padding: 9px 14px; }
+#bg.door-open { transform: scale(1.35) translateX(18%); transition: transform .6s steps(6); }
+.sticky { position: absolute; left: 44%; top: 34%; width: 46px; height: 42px; background: #fff59d; box-shadow: 0 0 0 3px #000, 4px 4px 0 rgba(0,0,0,.3); color: #e2574c; font-size: 22px; text-align: center; line-height: 42px; transform: rotate(-6deg); animation: pop .3s steps(3); }

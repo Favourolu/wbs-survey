@@ -7,6 +7,11 @@
   meta: { name: "हिन्दी", code: "hi", dir: "ltr", speech: "hi-IN" },
 
   ui: {
+    cardTitle: "कार्ड टैप करो",
+    cardHint: "अपना student card कार्ड रीडर पर खींचकर ले जाओ",
+    cardAuto: "मेरे लिए टैप कर दो",
+    cardGranted: "प्रवेश की अनुमति",
+    cardName: "छात्र",
     chooseLanguage: "अपनी भाषा चुनो",
     welcomeTo: "आपका स्वागत है",
     surveyTitle: "WBS सर्वे",
@@ -93,6 +98,9 @@
 
   // Max's one-off lines (text only)
   lines: {
+    cardMax: "रुको! लेक्चर थिएटर में जाने के लिए कार्ड टैप करना पड़ता है। चलो, बीप करके अंदर आओ।",
+    cardDone: "बीप! तुम अंदर हो। एकदम ऑफ़िशियल।",
+    cardMiss: "बस थोड़ा सा! उस छोटे काले रीडर पर निशाना लगाओ।",
     corridorQuip: "ये कहते हैं 'छोटे सवाल'। इन्होंने ये भी कहा था कि लेक्चर टाइम पर खत्म होगा।",
     sleepy: "श्श, इन्हें मत जगाओ। Week 7 बहुत भारी होता है।",
     goOn: "ओहो, बोलते रहो...",

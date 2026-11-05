@@ -5,6 +5,11 @@
   meta: { name: "日本語", code: "ja", dir: "ltr", speech: "ja-JP" },
 
   ui: {
+    cardTitle: "カードをタッチ",
+    cardHint: "学生証をカードリーダーまでドラッグしてね",
+    cardAuto: "かわりにタッチして",
+    cardGranted: "入室OK",
+    cardName: "学生",
     chooseLanguage: "言語を選んでね",
     welcomeTo: "ようこそ",
     surveyTitle: "WBS アンケート",
@@ -91,6 +96,9 @@
 
   // Max's one-off lines (text only)
   lines: {
+    cardMax: "ちょっと待って！講義室はカードが必要なんだ。ほら、ピッとして入ろう。",
+    cardDone: "ピッ！入れたね。すごく本格的。",
+    cardMiss: "おしい！小さい黒いリーダーをねらって。",
     corridorQuip: "「すぐ終わる」って言ってるけど、あの人「授業は時間通りに終わる」とも言ってたからね。",
     sleepy: "シーッ、起こさないであげて。第7週はキツいんだ。",
     goOn: "おっ、続けて続けて……",

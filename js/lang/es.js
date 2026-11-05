@@ -6,6 +6,11 @@
   meta: { name: "Español", code: "es", dir: "ltr", speech: "es-ES" },
 
   ui: {
+    cardTitle: "PASA TU TARJETA",
+    cardHint: "Arrastra tu tarjeta de estudiante hasta el lector",
+    cardAuto: "Pásala por mí",
+    cardGranted: "ACCESO PERMITIDO",
+    cardName: "ESTUDIANTE",
     chooseLanguage: "Elige tu idioma",
     welcomeTo: "BIENVENIDO A LA",
     surveyTitle: "ENCUESTA WBS",
@@ -92,6 +97,9 @@
 
   // Max's one-off lines (text only)
   lines: {
+    cardMax: "¡Espera! El aula magna pide tarjeta. Venga, haz bip y entra.",
+    cardDone: "¡Bip! Ya estás dentro. Muy oficial.",
+    cardMiss: "¡Casi! Apunta al lectorcito negro.",
     corridorQuip: "Dice 'rápidas'. También dijo que la clase terminaría a tiempo.",
     sleepy: "Shh, no lo despiertes. La semana 7 es dura.",
     goOn: "Uy, sigue, sigue...",

@@ -186,7 +186,7 @@ window.ROOMS = [
     ],
   },
   {
-    id: "careers", name: "Careers Office", icon: "💼", bg: null, scene: "careers",
+    id: "careers", name: "Careers Office", icon: "💼", bg: "assets/bg/careers.png", scene: "careers",
     npc: { name: "Careers Adviser", look: "adviser" },
     greet: "Let's talk about your future, superstar. No pressure. Okay, a little pressure.",
     questions: [

@@ -7,6 +7,11 @@
   meta: { name: "العربية", code: "ar", dir: "rtl", speech: "ar-SA" },
 
   ui: {
+    cardTitle: "مرّر بطاقتك",
+    cardHint: "اسحب بطاقتك الجامعية إلى قارئ البطاقات",
+    cardAuto: "مرّرها عني",
+    cardGranted: "تم السماح بالدخول",
+    cardName: "طالب",
     chooseLanguage: "اختر لغتك",
     welcomeTo: "أهلاً بك في",
     surveyTitle: "استبيان WBS",
@@ -93,6 +98,9 @@
 
   // Max's one-off lines (text only)
   lines: {
+    cardMax: "لحظة! قاعة المحاضرات تحتاج إلى تمرير البطاقة. هيا، مرّرها وادخل.",
+    cardDone: "بيب! دخلت. رسمي جداً.",
+    cardMiss: "قريب جداً! صوّب نحو القارئ الأسود الصغير.",
     corridorQuip: "يقول «سريعة». وقال أيضاً إن المحاضرة ستنتهي في موعدها.",
     sleepy: "صه، لا توقظه. الأسبوع السابع صعب.",
     goOn: "أوه، أكمل...",

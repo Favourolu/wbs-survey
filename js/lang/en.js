@@ -8,6 +8,11 @@
   meta: { name: "English", code: "en", dir: "ltr", speech: "en-GB" },
 
   ui: {
+    cardTitle: "TAP IN",
+    cardHint: "Drag your student card onto the card reader",
+    cardAuto: "Tap the card for me",
+    cardGranted: "ACCESS GRANTED",
+    cardName: "STUDENT",
     chooseLanguage: "Choose your language",
     welcomeTo: "WELCOME TO THE",
     surveyTitle: "WBS SURVEY",
@@ -94,6 +99,9 @@
 
   // Max's one-off lines (text only)
   lines: {
+    cardMax: "Hold on! The lecture theatre needs a card tap. Go on, beep yourself in.",
+    cardDone: "Beep! You're in. Very official.",
+    cardMiss: "So close! Aim for the little black reader.",
     corridorQuip: "He says 'quick'. He also said the lecture would finish on time.",
     sleepy: "Shh, don't wake him. Week 7 is hard.",
     goOn: "Ooh, go on...",

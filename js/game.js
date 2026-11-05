@@ -845,13 +845,9 @@
   async function sceneFoyer(nextId, vo) {
     await wipe(() => {
       clearStage();
-      setBg(drawFoyer);
+      setBg("assets/bg/foyer.png");
       setProgress(nextId ? ROOMS.find((r) => r.id === nextId).name : "Suggestion Box");
     });
-    const sign = el("div");
-    sign.style.cssText = "position:absolute;left:50%;top:7%;transform:translateX(-50%);background:#2b3f9e;color:#fff;font-family:Georgia,serif;font-size:22px;padding:4px 10px 6px;box-shadow:0 0 0 3px #000;letter-spacing:-1px";
-    sign.textContent = "wbs";
-    scenery.append(sign);
     let target = null;
     HUB.forEach((id, i) => {
       const room = ROOMS.find((r) => r.id === id);
@@ -887,13 +883,124 @@
     await sleep(250);
   }
 
+
+  // ---------- tap your student card on the reader ----------
+  async function sceneCardTap() {
+    await wipe(() => {
+      clearStage();
+      setBg("assets/bg/cardreader.png");
+      setPanel();
+      app.classList.add("full");
+    });
+    // where the reader / room screen sit in the photo (fractions of the image)
+    const IMG = { w: 120, h: 160 }, READER = { x: 0.413, y: 0.873 }, SCREEN = { x: 0.625, y: 0.405 };
+    const sw = stage.clientWidth, sh = stage.clientHeight;
+    const sc = Math.max(sw / IMG.w, sh / IMG.h);
+    const ox = (sw - IMG.w * sc) / 2, oy = sh - IMG.h * sc;
+    const at = (p) => ({ x: ox + p.x * IMG.w * sc, y: oy + p.y * IMG.h * sc });
+    const rd = at(READER), scr = at(SCREEN);
+
+    const ring = el("div", "reader-ring"); ring.style.left = rd.x + "px"; ring.style.top = rd.y + "px";
+    const screenGlow = el("div", "screen-glow"); screenGlow.style.left = scr.x + "px"; screenGlow.style.top = scr.y + "px";
+    screenGlow.textContent = t("ui.cardGranted");
+    const head = el("div", "card-head", "<b>" + esc(t("ui.cardTitle")) + "</b><span>" + esc(t("ui.cardHint")) + "</span>");
+    // the student card: shows the player's own avatar
+    const card = el("div", "idcard");
+    const face = document.createElement("canvas"); face.width = 16; face.height = 12;
+    const full = document.createElement("canvas"); full.width = 16; full.height = 24;
+    Pixel.draw(full.getContext("2d"), state.look, "idle", 1);
+    face.getContext("2d").drawImage(full, 0, 0, 16, 12, 0, 0, 16, 12);
+    card.innerHTML = '<div class="lanyard"></div><div class="card-top">wbs</div><div class="card-body"></div><div class="card-strip"></div>';
+    const body = card.querySelector(".card-body");
+    body.append(face);
+    body.append(el("div", "card-text", "<b>" + esc(t("ui.cardName")) + "</b><i></i><i></i><i></i>"));
+    const auto = el("button", "btn ghost card-auto", esc(t("ui.cardAuto")));
+    fx.append(ring, screenGlow, head);
+    app.append(card, auto);
+    fx.style.pointerEvents = "none";
+    const max = addActor(MAX_LOOK, { x: 78, bottom: "2%", name: CONFIG.GUIDE_NAME, flip: true, scale: 3 });
+    maxActor = max;
+    bubble(max, t("lines.cardMax"), CONFIG.GUIDE_NAME, 4500);
+
+    // starting spot for the card (bottom middle)
+    const home = () => {
+      const a = app.getBoundingClientRect();
+      return { x: a.width / 2 - 55, y: a.height - 170 };
+    };
+    let pos = home();
+    const place = (rot) => { card.style.transform = `translate(${pos.x}px, ${pos.y}px) rotate(${rot || 0}deg)`; };
+    place(-8);
+    const readerInApp = () => {
+      const a = app.getBoundingClientRect(), s = stage.getBoundingClientRect();
+      return { x: s.left - a.left + rd.x, y: s.top - a.top + rd.y };
+    };
+
+    let done;
+    const finished = new Promise((r) => (done = r));
+    let dragging = false, grab = { x: 0, y: 0 }, success = false;
+    const CARD_W = 110, CARD_H = 72;
+    async function succeed() {
+      if (success) return; success = true;
+      const r = readerInApp();
+      pos = { x: r.x - CARD_W / 2, y: r.y - CARD_H / 2 - 6 };
+      card.style.transition = "transform .18s steps(3)"; place(0);
+      await sleep(200);
+      Sound.sfx("blip"); await sleep(120); Sound.sfx("ding");
+      ring.classList.add("ok"); screenGlow.classList.add("on");
+      max.sprite.set("celebrate");
+      bubble(max, t("lines.cardDone"), CONFIG.GUIDE_NAME, 2000);
+      await sleep(1100);
+      Sound.sfx("door");
+      card.style.transition = "transform .4s steps(5), opacity .4s steps(5)";
+      pos.y += 220; place(12); card.style.opacity = 0;
+      bgEl.classList.add("door-open");
+      await sleep(600);
+      done();
+    }
+    card.addEventListener("pointerdown", (e) => {
+      if (success) return;
+      dragging = true; card.setPointerCapture(e.pointerId);
+      card.style.transition = "none";
+      const a = app.getBoundingClientRect();
+      grab = { x: e.clientX - a.left - pos.x, y: e.clientY - a.top - pos.y };
+      Sound.sfx("blip");
+    });
+    card.addEventListener("pointermove", (e) => {
+      if (!dragging) return;
+      const a = app.getBoundingClientRect();
+      pos = { x: e.clientX - a.left - grab.x, y: e.clientY - a.top - grab.y };
+      place(0);
+      const r = readerInApp();
+      const cx = pos.x + CARD_W / 2, cy = pos.y + CARD_H / 2;
+      ring.classList.toggle("near", Math.hypot(cx - r.x, cy - r.y) < 90);
+    });
+    const release = () => {
+      if (!dragging) return; dragging = false;
+      const r = readerInApp();
+      const cx = pos.x + CARD_W / 2, cy = pos.y + CARD_H / 2;
+      if (Math.hypot(cx - r.x, cy - r.y) < 70) succeed();
+      else {
+        bubble(max, t("lines.cardMiss"), CONFIG.GUIDE_NAME, 1800);
+        card.style.transition = "transform .25s steps(4)"; pos = home(); place(-8);
+      }
+    };
+    card.addEventListener("pointerup", release);
+    card.addEventListener("pointercancel", release);
+    auto.onclick = () => { auto.disabled = true; succeed(); };
+    await finished;
+    card.remove(); auto.remove();
+    fx.style.pointerEvents = "";
+  }
+
   // ---------- a room ----------
   async function sceneRoom(room) {
     let npc;
     await wipe(() => {
       clearStage();
+      app.classList.remove("full");
+      bgEl.classList.remove("door-open");
       setBg(room.bg || (room.scene === "careers" ? drawCareers : drawCorridor));
-      if (room.scene === "careers") {
+      if (room.scene === "careers" && !room.bg) {
         const p = el("div");
         p.style.cssText = "position:absolute;right:6%;top:8%;background:#f6c343;font-family:'Press Start 2P';font-size:9px;padding:6px;box-shadow:0 0 0 3px #000";
         p.textContent = t("ui.careersSign");
@@ -968,7 +1075,7 @@
   async function sceneSuggestions() {
     await wipe(() => {
       clearStage();
-      setBg(drawFoyer);
+      setBg("assets/bg/foyer.png");
       setProgress("Suggestion Box");
       setPanel();
     });
@@ -998,13 +1105,15 @@
     }
     max.sprite.set("talk");
     bubble(max, t("lines.sayNice"), CONFIG.GUIDE_NAME, 3000);
+    // the shout-out wall: the real WBS quote wall
+    await wipe(() => { setBg("assets/bg/quotewall.png"); box.remove(); board.style.display = "none"; });
     const q2 = { id: "positive_feedback", type: "text", text: "Drop some positive feedback! What's been great about WBS so far?" };
     const v2 = await ask(q2, t("ui.shoutOutWall"));
     max.sprite.set("idle");
     if (v2) {
       state.answers.positive_feedback = v2;
-      const n = el("i"); n.style.cssText = "width:18px;height:16px;background:#ffcc80;box-shadow:0 0 0 2px #000;animation:pop .3s steps(3)";
-      board.append(n); Sound.sfx("ding");
+      const n = el("div", "sticky", "♥");
+      scenery.append(n); Sound.sfx("ding");
       for (let i = 0; i < 5; i++) {
         const h = el("div", "confetti"); h.textContent = "♥"; h.style.cssText += ";background:none;color:#e2574c;font-size:14px;left:" + (60 + Math.random() * 30) + "%;top:40%;animation:fall 2s linear reverse forwards";
         fx.append(h); setTimeout(() => h.remove(), 2000);
@@ -1142,6 +1251,7 @@
     for (const id of HUB) {
       const room = ROOMS.find((r) => r.id === id);
       await sceneFoyer(id, vos[id]);
+      if (id === "lecture") await sceneCardTap();
       await sceneRoom(room);
       if (id === "lecture") {
         const corridor = ROOMS.find((r) => r.id === "corridor");
@@ -1153,7 +1263,7 @@
   }
 
   // preload backgrounds, then go
-  ["title", "road", "arrival", "lecture", "library", "cafe"].forEach((n) => { const i = new Image(); i.src = "assets/bg/" + n + ".png"; });
+  ["title", "road", "arrival", "foyer", "cardreader", "lecture", "library", "cafe", "careers", "quotewall"].forEach((n) => { const i = new Image(); i.src = "assets/bg/" + n + ".png"; });
   main().catch((e) => { console.error(e); setPanel(el("div", "box", esc(t("ui.error")))); });
 
   // test hooks (used by automated checks only)

@@ -5,6 +5,11 @@
   meta: { name: "中文", code: "zh", dir: "ltr", speech: "zh-CN" },
 
   ui: {
+    cardTitle: "刷卡进门",
+    cardHint: "把学生卡拖到读卡器上",
+    cardAuto: "帮我刷卡",
+    cardGranted: "允许进入",
+    cardName: "学生",
     chooseLanguage: "选择你的语言",
     welcomeTo: "欢迎来到",
     surveyTitle: "WBS 问卷",
@@ -91,6 +96,9 @@
 
   // Max's one-off lines (text only)
   lines: {
+    cardMax: "等等！进阶梯教室要刷卡。来，自己滴一下进门吧。",
+    cardDone: "滴！进来了。超正式的。",
+    cardMiss: "差一点！对准那个黑色的小读卡器。",
     corridorQuip: "他说“很快”。他上次还说课会准时下课呢。",
     sleepy: "嘘，别吵醒他。第 7 周真的太累了。",
     goOn: "哦哦，继续说……",

@@ -5,6 +5,11 @@
   meta: { name: "한국어", code: "ko", dir: "ltr", speech: "ko-KR" },
 
   ui: {
+    cardTitle: "카드 태그",
+    cardHint: "학생증을 카드 리더기로 끌어다 놓아요",
+    cardAuto: "대신 찍어 줘",
+    cardGranted: "출입 승인",
+    cardName: "학생",
     chooseLanguage: "언어를 선택하세요",
     welcomeTo: "환영합니다",
     surveyTitle: "WBS 설문",
@@ -91,6 +96,9 @@
 
   // Max's one-off lines (text only)
   lines: {
+    cardMax: "잠깐! 강의실은 카드를 찍어야 들어갈 수 있어. 자, 삑 하고 들어가 봐.",
+    cardDone: "삑! 들어왔다. 완전 공식적이야.",
+    cardMiss: "아깝다! 작은 검은 리더기에 대 봐.",
     corridorQuip: "'금방'이래. 저분, 수업도 제시간에 끝난다고 했었어.",
     sleepy: "쉿, 깨우지 마. 7주 차는 원래 힘들어.",
     goOn: "오오, 계속해 봐...",

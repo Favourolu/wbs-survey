@@ -6,6 +6,11 @@
   meta: { name: "Português", code: "pt", dir: "ltr", speech: "pt-BR" },
 
   ui: {
+    cardTitle: "PASSE O CARTÃO",
+    cardHint: "Arraste sua carteirinha até o leitor de cartão",
+    cardAuto: "Passe por mim",
+    cardGranted: "ACESSO LIBERADO",
+    cardName: "ESTUDANTE",
     chooseLanguage: "Escolha seu idioma",
     welcomeTo: "BEM-VINDO À",
     surveyTitle: "PESQUISA WBS",
@@ -92,6 +97,9 @@
 
   // Max's one-off lines (text only)
   lines: {
+    cardMax: "Espera! O auditório pede o cartão. Vai, dá um bip e entra.",
+    cardDone: "Bip! Você entrou. Muito oficial.",
+    cardMiss: "Quase! Mira no leitorzinho preto.",
     corridorQuip: "Ele disse 'rapidinhas'. Também disse que a aula ia acabar no horário.",
     sleepy: "Shh, não acorda ele. A semana 7 é pesada.",
     goOn: "Ooh, vai, continua...",

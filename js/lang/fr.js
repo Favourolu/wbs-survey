@@ -6,6 +6,11 @@
   meta: { name: "Français", code: "fr", dir: "ltr", speech: "fr-FR" },
 
   ui: {
+    cardTitle: "PASSE TA CARTE",
+    cardHint: "Fais glisser ta carte étudiante sur le lecteur",
+    cardAuto: "Passe-la pour moi",
+    cardGranted: "ACCÈS AUTORISÉ",
+    cardName: "ÉTUDIANT",
     chooseLanguage: "Choisis ta langue",
     welcomeTo: "BIENVENUE DANS LE",
     surveyTitle: "SONDAGE WBS",
@@ -92,6 +97,9 @@
 
   // Max's one-off lines (text only)
   lines: {
+    cardMax: "Attends ! L'amphi demande un badge. Vas-y, fais bip et entre.",
+    cardDone: "Bip ! Tu es entré. Très officiel.",
+    cardMiss: "Presque ! Vise le petit lecteur noir.",
     corridorQuip: "Il dit « rapides ». Il avait aussi dit que le cours finirait à l'heure.",
     sleepy: "Chut, ne le réveille pas. La semaine 7, c'est dur.",
     goOn: "Ooh, vas-y...",

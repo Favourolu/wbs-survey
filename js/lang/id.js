@@ -7,6 +7,11 @@
   meta: { name: "Bahasa Indonesia", code: "id", dir: "ltr", speech: "id-ID" },
 
   ui: {
+    cardTitle: "TAP KARTU",
+    cardHint: "Seret kartu mahasiswamu ke pembaca kartu",
+    cardAuto: "Tap-kan untukku",
+    cardGranted: "AKSES DITERIMA",
+    cardName: "MAHASISWA",
     chooseLanguage: "Pilih bahasamu",
     welcomeTo: "SELAMAT DATANG DI",
     surveyTitle: "SURVEI WBS",
@@ -93,6 +98,9 @@
 
   // Max's one-off lines (text only)
   lines: {
+    cardMax: "Tunggu! Ruang kuliah perlu tap kartu. Ayo, bip dan masuk.",
+    cardDone: "Bip! Kamu masuk. Resmi banget.",
+    cardMiss: "Dikit lagi! Arahkan ke pembaca hitam kecil itu.",
     corridorQuip: "Katanya 'singkat'. Katanya juga kuliahnya bakal selesai tepat waktu.",
     sleepy: "Ssst, jangan bangunkan dia. Minggu ke-7 itu berat.",
     goOn: "Ooh, lanjut...",
