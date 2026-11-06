@@ -6,6 +6,9 @@
   meta: { name: "Español", code: "es", dir: "ltr", speech: "es-ES" },
 
   ui: {
+    welcomeBack: "¡Bienvenido de nuevo! ¿Sigues donde lo dejaste?",
+    continue: "▶ CONTINUAR",
+    startOver: "Empezar de nuevo",
     cardTitle: "PASA TU TARJETA",
     cardHint: "Arrastra tu tarjeta de estudiante hasta el lector",
     cardAuto: "Pásala por mí",

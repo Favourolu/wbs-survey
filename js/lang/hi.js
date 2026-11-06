@@ -7,6 +7,9 @@
   meta: { name: "हिन्दी", code: "hi", dir: "ltr", speech: "hi-IN" },
 
   ui: {
+    welcomeBack: "वापसी पर स्वागत है! जहाँ छोड़ा था, वहीं से शुरू करें?",
+    continue: "▶ जारी रखें",
+    startOver: "फिर से शुरू करें",
     cardTitle: "कार्ड टैप करो",
     cardHint: "अपना student card कार्ड रीडर पर खींचकर ले जाओ",
     cardAuto: "मेरे लिए टैप कर दो",

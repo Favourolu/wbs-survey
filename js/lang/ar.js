@@ -7,6 +7,9 @@
   meta: { name: "العربية", code: "ar", dir: "rtl", speech: "ar-SA" },
 
   ui: {
+    welcomeBack: "أهلاً بعودتك! هل تريد المتابعة من حيث توقفت؟",
+    continue: "▶ متابعة",
+    startOver: "البدء من جديد",
     cardTitle: "مرّر بطاقتك",
     cardHint: "اسحب بطاقتك الجامعية إلى قارئ البطاقات",
     cardAuto: "مرّرها عني",

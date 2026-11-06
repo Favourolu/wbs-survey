@@ -5,6 +5,9 @@
   meta: { name: "日本語", code: "ja", dir: "ltr", speech: "ja-JP" },
 
   ui: {
+    welcomeBack: "おかえり！前回の続きから始める？",
+    continue: "▶ つづきから",
+    startOver: "最初から",
     cardTitle: "カードをタッチ",
     cardHint: "学生証をカードリーダーまでドラッグしてね",
     cardAuto: "かわりにタッチして",

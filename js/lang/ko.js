@@ -5,6 +5,9 @@
   meta: { name: "한국어", code: "ko", dir: "ltr", speech: "ko-KR" },
 
   ui: {
+    welcomeBack: "다시 왔구나! 멈췄던 곳부터 이어서 할래?",
+    continue: "▶ 이어하기",
+    startOver: "처음부터",
     cardTitle: "카드 태그",
     cardHint: "학생증을 카드 리더기로 끌어다 놓아요",
     cardAuto: "대신 찍어 줘",

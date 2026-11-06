@@ -8,6 +8,9 @@
   meta: { name: "English", code: "en", dir: "ltr", speech: "en-GB" },
 
   ui: {
+    welcomeBack: "Welcome back! Pick up where you left off?",
+    continue: "▶ CONTINUE",
+    startOver: "Start over",
     cardTitle: "TAP IN",
     cardHint: "Drag your student card onto the card reader",
     cardAuto: "Tap the card for me",

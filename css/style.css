@@ -425,3 +425,5 @@ html.nonlatin .box { padding-top: 22px; }
   .next-row { position: static; margin: 0; padding: 12px 0 0; background: none; }
   .arena { padding-bottom: 96px; }
 }
+
+.start-over { width: auto; margin: 14px auto 0; font-size: 15px; padding: 9px 16px; }

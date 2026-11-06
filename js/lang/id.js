@@ -7,6 +7,9 @@
   meta: { name: "Bahasa Indonesia", code: "id", dir: "ltr", speech: "id-ID" },
 
   ui: {
+    welcomeBack: "Selamat datang kembali! Lanjut dari terakhir kali?",
+    continue: "▶ LANJUTKAN",
+    startOver: "Mulai dari awal",
     cardTitle: "TAP KARTU",
     cardHint: "Seret kartu mahasiswamu ke pembaca kartu",
     cardAuto: "Tap-kan untukku",

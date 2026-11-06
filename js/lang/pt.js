@@ -6,6 +6,9 @@
   meta: { name: "Português", code: "pt", dir: "ltr", speech: "pt-BR" },
 
   ui: {
+    welcomeBack: "Bem-vindo de volta! Continuar de onde parou?",
+    continue: "▶ CONTINUAR",
+    startOver: "Começar de novo",
     cardTitle: "PASSE O CARTÃO",
     cardHint: "Arraste sua carteirinha até o leitor de cartão",
     cardAuto: "Passe por mim",

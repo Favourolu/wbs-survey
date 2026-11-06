@@ -77,6 +77,7 @@
       }, state.answers);
       this.pending = payload;
       try { localStorage.setItem("wbs_pending", JSON.stringify(payload)); } catch (e) {}
+      Progress.save(status);
       this.flush();
     },
     async flush() {
@@ -96,6 +97,35 @@
     },
   };
   window.addEventListener("online", () => Saver.flush());
+
+  // ---------- resume where you left off (same device only) ----------
+  const PROGRESS_KEY = "wbs_progress", PROGRESS_DAYS = 21;
+  const Progress = {
+    save(status) {
+      try {
+        if (status === "Completed") { localStorage.removeItem(PROGRESS_KEY); return; }
+        localStorage.setItem(PROGRESS_KEY, JSON.stringify({
+          v: 1, at: Date.now(), session: state.session, gender: state.gender, course: state.course,
+          courseCode: state.courseCode, look: state.look, answers: state.answers,
+          done: [...new Set([...state.done, status])], steps: progressSteps,
+        }));
+      } catch (e) {}
+    },
+    load() {
+      try {
+        const p = JSON.parse(localStorage.getItem(PROGRESS_KEY) || "null");
+        if (!p || p.v !== 1 || !p.session || Date.now() - p.at > PROGRESS_DAYS * 864e5) return null;
+        return p;
+      } catch (e) { return null; }
+    },
+    clear() { try { localStorage.removeItem(PROGRESS_KEY); } catch (e) {} },
+    restore(p) {
+      state.session = p.session; state.gender = p.gender; state.course = p.course; state.courseCode = p.courseCode;
+      state.look = Object.assign(state.look, p.look); state.answers = Object.assign({}, p.answers);
+      state.done = new Set(p.done || []);
+      if (Array.isArray(p.steps) && p.steps.length) progressSteps = p.steps;
+    },
+  };
   // resend anything left over from a previous visit (e.g. lost signal)
   try {
     const left = JSON.parse(localStorage.getItem("wbs_pending") || "null");
@@ -624,14 +654,27 @@
       fx.append(ts);
       return new Promise(() => {}); // end here
     }
-    const start = el("button", "press-start", t("ui.pressStart"));
-    ts.append(start);
-    ts.append(el("div", "tip", esc(pick(t("tips")))));
-    fx.append(ts);
-    await new Promise((r) => (start.onclick = r));
+    const saved = Progress.load();
+    let resume = false;
+    if (saved) {
+      ts.append(el("div", "sub", "🎮 " + esc(t("ui.welcomeBack"))));
+      const cont = el("button", "press-start", t("ui.continue"));
+      const over = el("button", "btn ghost start-over", esc(t("ui.startOver")));
+      ts.append(cont, over);
+      fx.append(ts);
+      resume = await new Promise((r) => { cont.onclick = () => r(true); over.onclick = () => r(false); });
+      if (resume) Progress.restore(saved); else Progress.clear();
+    } else {
+      const start = el("button", "press-start", t("ui.pressStart"));
+      ts.append(start);
+      ts.append(el("div", "tip", esc(pick(t("tips")))));
+      fx.append(ts);
+      await new Promise((r) => (start.onclick = r));
+    }
     Sound.init();
     Sound.sfx("coin");
     Sound.music("title");
+    return resume;
   }
 
   async function sceneAnonymity() {
@@ -1290,24 +1333,32 @@
   // =================================================================
   async function main() {
     await sceneLanguage();
-    await sceneTitle();
-    await sceneAnonymity();
-    await sceneGender();
-    await sceneCourse();
-    await sceneCreator();
-    await sceneArrival();
-    await sceneWalkIn("assets/bg/reception.png", 92, 20);
+    const resumed = await sceneTitle();
+    if (!resumed) {
+      await sceneAnonymity();
+      await sceneGender();
+      await sceneCourse();
+      await sceneCreator();
+      await sceneArrival();
+      await sceneWalkIn("assets/bg/reception.png", 92, 20);
+    } else {
+      // straight back to the foyer, as the same student (same row in the Sheet)
+      await wipe(() => { app.classList.remove("full"); clearStage(); setPanel(); });
+      showHud(true);
+    }
 
     const vos = { lecture: 9, library: 10, cafe: 11, careers: 12 };
+    const corridor = ROOMS.find((r) => r.id === "corridor");
     for (const id of HUB) {
       const room = ROOMS.find((r) => r.id === id);
-      await sceneFoyer(id, vos[id]);
-      if (id === "lecture") await sceneCardTap();
-      if (id === "cafe") await sceneWalkIn("assets/bg/district.png");
-      await sceneRoom(room);
-      if (id === "lecture") {
-        const corridor = ROOMS.find((r) => r.id === "corridor");
-        if (corridor.showIf(state.answers, state)) await sceneCorridor(corridor);
+      if (!state.done.has(room.name)) {
+        await sceneFoyer(id, vos[id]);
+        if (id === "lecture") await sceneCardTap();
+        if (id === "cafe") await sceneWalkIn("assets/bg/district.png");
+        await sceneRoom(room);
+      }
+      if (id === "lecture" && !state.done.has(corridor.name) && corridor.showIf(state.answers, state)) {
+        await sceneCorridor(corridor);
       }
     }
     await sceneSuggestions();

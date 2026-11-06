@@ -5,6 +5,9 @@
   meta: { name: "中文", code: "zh", dir: "ltr", speech: "zh-CN" },
 
   ui: {
+    welcomeBack: "欢迎回来！要从上次中断的地方继续吗？",
+    continue: "▶ 继续",
+    startOver: "重新开始",
     cardTitle: "刷卡进门",
     cardHint: "把学生卡拖到读卡器上",
     cardAuto: "帮我刷卡",

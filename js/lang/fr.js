@@ -6,6 +6,9 @@
   meta: { name: "Français", code: "fr", dir: "ltr", speech: "fr-FR" },
 
   ui: {
+    welcomeBack: "Re-bonjour ! Tu reprends là où tu t'étais arrêté ?",
+    continue: "▶ CONTINUER",
+    startOver: "Recommencer",
     cardTitle: "PASSE TA CARTE",
     cardHint: "Fais glisser ta carte étudiante sur le lecteur",
     cardAuto: "Passe-la pour moi",
