@@ -27,6 +27,11 @@
     sfxGain = ctx.createGain(); sfxGain.gain.value = 0.5; sfxGain.connect(master);
   }
 
+  // phones pause sound when you switch apps or lock the screen: wake it up again
+  const wake = () => { if (ctx && ctx.state !== "running") ctx.resume().catch(() => {}); };
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) wake(); });
+  window.addEventListener("pointerdown", wake, true);
+
   function tone(freq, start, dur, type, gainNode, vol, slideTo) {
     if (!ctx) return;
     const o = ctx.createOscillator(), g = ctx.createGain();

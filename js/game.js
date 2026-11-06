@@ -241,15 +241,16 @@
         if (opts.talker) setTimeout(() => opts.talker.sprite.set(opts.endPose || "idle"), 400);
       };
       tick();
+      const stop = () => { panel.removeEventListener("click", onTap); stage.removeEventListener("click", onTap); };
       const onTap = () => {
-        if (!box.isConnected) { panel.removeEventListener("click", onTap); return resolve(); }
+        if (!box.isConnected) { stop(); return resolve(); }
         if (typing) { finish(); return; }
-        panel.removeEventListener("click", onTap);
+        stop();
         Sound.sfx("blip");
         if (opts.vo && !opts.keepVoice) Sound.stopVoice();
         resolve();
       };
-      setTimeout(() => panel.addEventListener("click", onTap), 150);
+      setTimeout(() => { panel.addEventListener("click", onTap); stage.addEventListener("click", onTap); }, 150);
     });
   }
 
@@ -903,11 +904,13 @@
     });
     // where the reader / room screen sit in the photo (fractions of the image)
     const IMG = { w: 120, h: 160 }, READER = SPOT.reader, SCREEN = SPOT.screen;
-    const sw = stage.clientWidth, sh = stage.clientHeight;
-    const sc = Math.max(sw / IMG.w, sh / IMG.h);
-    const ox = (sw - IMG.w * sc) / 2, oy = sh - IMG.h * sc;
-    const at = (p) => ({ x: ox + p.x * IMG.w * sc, y: oy + p.y * IMG.h * sc });
-    const rd = at(READER), scr = at(SCREEN);
+    const at = (p) => {
+      const sw = stage.clientWidth, sh = stage.clientHeight;
+      const sc = Math.max(sw / IMG.w, sh / IMG.h);
+      const ox = (sw - IMG.w * sc) / 2, oy = sh - IMG.h * sc;
+      return { x: ox + p.x * IMG.w * sc, y: oy + p.y * IMG.h * sc };
+    };
+    let rd = at(READER), scr = at(SCREEN);
 
     const ring = el("div", "reader-ring"); ring.style.left = rd.x + "px"; ring.style.top = rd.y + "px";
     const screenGlow = el("div", "screen-glow"); screenGlow.style.left = scr.x + "px"; screenGlow.style.top = scr.y + "px";
@@ -946,6 +949,14 @@
       return { x: st.left - a.left + st.width / 2 - 20, y: Math.max(below, a.height * 0.38) };
     };
     let pos = home();
+    const relayout = () => {
+      rd = at(READER); scr = at(SCREEN);
+      ring.style.left = rd.x + "px"; ring.style.top = rd.y + "px";
+      screenGlow.style.left = scr.x + "px"; screenGlow.style.top = scr.y + "px";
+      placeAuto();
+      if (!success && !dragging) { pos = home(); place(-8); }
+    };
+    window.addEventListener("resize", relayout);
     const place = (rot) => { card.style.transform = `translate(${pos.x}px, ${pos.y}px) rotate(${rot || 0}deg)`; };
     place(-8);
     const readerInApp = () => {
@@ -1006,6 +1017,7 @@
     card.addEventListener("pointercancel", release);
     auto.onclick = () => { auto.disabled = true; succeed(); };
     await finished;
+    window.removeEventListener("resize", relayout);
     card.remove(); auto.remove();
     fx.style.pointerEvents = "";
   }
