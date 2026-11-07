@@ -45,6 +45,7 @@ window.COURSE_GROUPS = [
     ["MSc Business Analytics & Artificial Intelligence"],
     ["MSc Digital & AI Leadership"],
     ["MSc Financial Technology"],
+    ["MSc Management of Information Systems and Digital Innovation"],
   ]},
   { group: "Finance", courses: [
     ["MSc Finance"],
